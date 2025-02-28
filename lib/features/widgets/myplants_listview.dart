@@ -1,6 +1,6 @@
 
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/widgets/plant_card_widget.dart';
+import 'package:allplant/features/widgets/plant_card.dart';
 import 'package:flutter/material.dart';
 
 class PlantGuideSection extends StatelessWidget {

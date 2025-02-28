@@ -1,4 +1,3 @@
-
 import 'package:allplant/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +8,7 @@ class AppTheme {
       primarySwatch: Colors.green,
       textTheme: TextTheme(
         bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: Colors.black, fontFamily: 'ProtestRevolution'),
         headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         headlineLarge: TextStyle(fontSize: 30, fontFamily: 'Montserrat'),
         // Diğer text stilleri...
