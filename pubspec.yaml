@@ -29,18 +29,30 @@ dependencies:
   fl_chart: ^0.70.2
 
 
+  #google
+  equatable: ^2.0.7
+  image_picker: ^1.1.2
+
+  #state
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
+
   cupertino_icons: ^1.0.8
 
    #very good analysis
   very_good_analysis: ^7.0.0
   
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+                          # For GoRouter testing
+  mocktail: ^0.3.0        # (Optional) For mocking dependencies  
 
 
-  flutter_lints: ^5.0.0
-  build_runner: ^2.4.15
+  
 
 
 

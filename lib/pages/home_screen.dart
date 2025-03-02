@@ -5,6 +5,7 @@ import 'package:allplant/features/widgets/random_info_text.dart';
 
 import 'package:allplant/features/widgets/upcoming_water_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,6 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.go('/add-plant'); // 🆕 Bitki ekleme ekranına yönlendir
+        },
+        icon: const Icon(Icons.add),
+        label: const Text("Bitki Ekle"),
       ),
     );
   }
