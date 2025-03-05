@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:allplant/core/constants/paddings.dart';
+import 'package:allplant/core/widgets/button/add_plant_button.dart';
+import 'package:allplant/features/widgets/image/leaf_image.dart';
 import 'package:allplant/features/widgets/myplants_listview.dart';
 import 'package:allplant/features/widgets/random_info_text.dart';
 
 import 'package:allplant/features/widgets/upcoming_water_list.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           // Arka plan ve dekoratif görseller
-          const TopLeaf(),
-          const BottomLeaf(),
+          const LeafImage(position: LeafPosition.topLeft),
+          const LeafImage(position: LeafPosition.bottomRight),
 
           // İçeriği kapsayan alan
           Positioned.fill(
@@ -51,23 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Center(child: Text("Ana Ekran", style: Theme.of(context).textTheme.headlineLarge)),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Paddings.homeScreenPadding),
 
                 // Üst kısım scrollable
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: Paddings.homeScreenPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Bitki Rehberi
                           PlantGuideSection(),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: Paddings.homeScreenPadding),
 
                           Text("Yaklaşan Sulamalar", style: Theme.of(context).textTheme.titleMedium),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: Paddings.homeScreenPadding),
 
                           // Yaklaşan Sulamalar Listesi
                           const UpcomingWateringsList(),
@@ -84,31 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.go('/add-plant'); // 🆕 Bitki ekleme ekranına yönlendir
-        },
-        icon: const Icon(Icons.add),
-        label: const Text("Bitki Ekle"),
-      ),
+      floatingActionButton: AddPlantButton(),
     );
-  }
-}
-
-/// Üstteki yaprak görseli
-class TopLeaf extends StatelessWidget {
-  const TopLeaf({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(top: 0, left: 0, child: Image.asset('assets/images/leaf_downwards.png', width: 150));
-  }
-}
-
-/// Alttaki yaprak görseli
-class BottomLeaf extends StatelessWidget {
-  const BottomLeaf({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(bottom: 0, right: 0, child: Image.asset('assets/images/leaf.png', width: 150));
   }
 }

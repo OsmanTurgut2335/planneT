@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:allplant/features/cubit/plant_cubit.dart';
-import 'package:allplant/features/cubit/plant_state.dart';
-import 'package:allplant/features/models/plant.dart';
+import 'package:allplant/features/cubit/addplant/add_plant_cubit.dart';
+import 'package:allplant/features/cubit/addplant/add_plant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,161 +15,163 @@ class AddPlantScreen extends StatefulWidget {
 class _AddPlantScreenState extends State<AddPlantScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Kullanıcıdan alınacak veriler
-  String _name = '';
-  String? _nickname;
-  DateTime _lastWateredDate = DateTime.now();
-  int _wateringFrequency = 7;
-  String? _imagePath;
-  final ImagePicker _picker = ImagePicker();
-
-  // Resim Seçme Fonksiyonu
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _imagePath = pickedFile.path;
-      });
-    }
-  }
-
-  // Bitkiyi Kaydetme Fonksiyonu
-  void _savePlant() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      
-      final plant = Plant(
-        name: _name,
-        imageUrl: _imagePath ?? '', // Kullanıcı resim eklemezse boş bırak
-        lastWateredDate: _lastWateredDate,
-        wateringFrequencyInDays: _wateringFrequency,
-        nickname: _nickname,
-      );
-
-      context.read<PlantCubit>().addPlant(plant);
-    }
-  }
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Bitki Ekle")),
-      body: BlocListener<PlantCubit, PlantState>(
-        listener: (context, state) {
-          if (state is PlantAdded) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bitki başarıyla eklendi!")));
-           
-          } else if (state is PlantError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Bitki Adı
-                TextFormField(
-                  decoration: const InputDecoration(labelText: "Bitki Adı"),
-                  validator: (value) => value == null || value.isEmpty ? "Lütfen bitki adını girin" : null,
-                  onSaved: (value) => _name = value!,
-                ),
-                const SizedBox(height: 10),
+      body: BlocProvider(
+        create: (context) => AddPlantCubit(),
+        child: BlocConsumer<AddPlantCubit, AddPlantState>(
+          listener: (context, state) {
+            if (state is AddPlantSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bitki başarıyla eklendi!")));
+            } else if (state is AddPlantFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
+          builder: (context, state) {
+            final cubit = context.read<AddPlantCubit>();
 
-                // Takma Ad
-                TextFormField(
-                  decoration: const InputDecoration(labelText: "Takma Ad (Opsiyonel)"),
-                  onSaved: (value) => _nickname = value,
-                ),
-                const SizedBox(height: 20),
-
-                // Sulama Sıklığı Seçici (Slider)
-                Text("Sulama Sıklığı: $_wateringFrequency gün", style: Theme.of(context).textTheme.bodySmall),
-                Slider(
-                  value: _wateringFrequency.toDouble(),
-                  min: 1,
-                  max: 30,
-                  divisions: 29,
-                  label: _wateringFrequency.toString(),
-                  onChanged: (value) {
-                    setState(() {
-                      _wateringFrequency = value.toInt();
-                    });
-                  },
-                ),
-                const SizedBox(height: 10),
-
-                // Son Sulama Tarihi Seçici
-                Row(
-                  mainAxisSize: MainAxisSize.max,
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // 🌿 Bitki Adı
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: "Bitki Adı"),
+                      validator: (value) => value == null || value.isEmpty ? "Lütfen bitki adını girin" : null,
+                      onSaved: (value) => cubit.setPlantName(value!),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // 🌿 Takma Ad (Opsiyonel)
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: "Takma Ad (Opsiyonel)"),
+                      onSaved: (value) => cubit.setPlantNickname(value),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // 💧 Sulama Sıklığı
                     Text(
-                      "Son Sulama: ${_lastWateredDate.toLocal()}".split(' ')[0],
+                      "Sulama Sıklığı: ${cubit.wateringFrequency} gün",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: _lastWateredDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                        if (pickedDate != null) {
-                          setState(() {
-                            _lastWateredDate = pickedDate;
-                          });
-                        }
-                      },
+                    Slider(
+                      value: cubit.wateringFrequency.toDouble(),
+                      min: 1,
+                      max: 30,
+                      divisions: 29,
+                      label: cubit.wateringFrequency.toString(),
+                      onChanged: (value) => cubit.updateWateringFrequency(value.toInt()),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // 📅 Son Sulama Tarihi Seçici
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Son sulama: ${cubit.lastWateredDate.toString().split(' ')[0]}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today, color: Colors.green),
+                          onPressed: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: cubit.lastWateredDate,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime.now(),
+                            );
+                            if (pickedDate != null) {
+                              cubit.selectDate(pickedDate);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+
+                    // 📷 Resim Seçme
+                    Center(
+                      child: Column(
+                        children: [
+                          state is AddPlantImageSelected
+                              ? Image.file(File(state.imagePath), width: 250, height: 250)
+                              : Container(
+                                width: 250,
+                                height: 250,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
+                              ),
+                          TextButton.icon(
+                            onPressed: () => _showImageSourceDialog(context, cubit),
+                            icon: const Icon(Icons.image),
+                            label: const Text("Fotoğraf Seç"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // 🌱 Kaydet Butonu
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              cubit.savePlant();
+                            }
+                          },
+                          child: const Text("Bitkiyi Kaydet"),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-
-                // Fotoğraf Seçme
-                Center(
-                  child: Column(
-                    children: [
-                      _imagePath != null
-                          ? Image.file(File(_imagePath!), width: 250, height: 250, fit: BoxFit.cover)
-                          : Container(
-                            width: 250,
-                            height: 250,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300, // Light gray background
-                              borderRadius: BorderRadius.circular(10), // Optional rounded corners
-                            ),
-                            child: const Center(
-                              child: Icon(Icons.image, size: 50, color: Colors.grey), // Placeholder icon
-                            ),
-                          ),
-
-                      TextButton.icon(
-                        onPressed: _pickImage,
-                        icon: const Icon(Icons.image),
-                        label: const Text("Resim Seç"),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Kaydet Butonu
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Center(child: ElevatedButton(onPressed: _savePlant, child: const Text("Bitkiyi Kaydet"))),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
+    );
+  }
+
+  void _showImageSourceDialog(BuildContext context, AddPlantCubit cubit) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text("Kameradan Çek"),
+              onTap: () {
+                Navigator.pop(context);
+                cubit.pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text("Galeriden Seç"),
+              onTap: () {
+                Navigator.pop(context);
+                cubit.pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

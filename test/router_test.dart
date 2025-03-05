@@ -35,7 +35,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify that the MyPlants widget is visible.
-      expect(find.byType(MyPlants), findsOneWidget);
+      expect(find.byType(MyPlantsScreen), findsOneWidget);
     });
 
     testWidgets('Navigating to /calendar shows CalendarScreen', (WidgetTester tester) async {

@@ -1,5 +1,5 @@
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/widgets/plant_card.dart';
+import 'package:allplant/features/widgets/card/plant_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -11,29 +11,8 @@ class PlantGuideSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header Row with title and "View all"
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Bitkilerim",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            GestureDetector(
-              onTap: () {
-                // Handle "View all" tap
-              },
-              child: Text(
-                "View all",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade700,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
-        ),
+        Text("Bitkilerim", style: Theme.of(context).textTheme.headlineMedium),
+
         const SizedBox(height: 12),
         // Instead of dummyPlants, use Hive's listenable to fetch live data
         ValueListenableBuilder(
@@ -41,7 +20,7 @@ class PlantGuideSection extends StatelessWidget {
           builder: (context, Box<Plant> box, _) {
             final plants = box.values.toList().cast<Plant>();
             if (plants.isEmpty) {
-              return const Center(child: Text("No plants added yet"));
+              return const Center(child: Text("Henüz bitki eklemediniz"));
             }
             return SizedBox(
               height: 160, // height for the horizontal list of cards

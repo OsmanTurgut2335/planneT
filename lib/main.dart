@@ -1,6 +1,6 @@
 import 'package:allplant/core/router/app_router.dart';
 import 'package:allplant/core/theme/app_theme.dart';
-import 'package:allplant/features/cubit/plant_cubit.dart';
+import 'package:allplant/features/cubit/plant/plant_cubit.dart';
 import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/repository/plant_repository.dart';
 import 'package:flutter/material.dart';

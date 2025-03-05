@@ -42,6 +42,7 @@ dependencies:
    #very good analysis
   very_good_analysis: ^7.0.0
   
+  intl: ^0.20.2
   flutter_lints: ^5.0.0
   build_runner: ^2.4.15
 

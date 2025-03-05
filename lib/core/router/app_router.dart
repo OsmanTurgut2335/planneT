@@ -22,7 +22,7 @@ final GoRouter appRouter = GoRouter(
         }
         return Scaffold(
           body: child,
-       
+
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: (index) {
@@ -37,7 +37,6 @@ final GoRouter appRouter = GoRouter(
                   context.go('/calendar');
                   break;
               }
-              
             },
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ev'),
@@ -52,7 +51,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/plants',
           name: 'plants',
-          builder: (BuildContext context, GoRouterState state) => const MyPlants(),
+          builder: (BuildContext context, GoRouterState state) => const MyPlantsScreen(),
         ),
         GoRoute(
           path: '/calendar',
