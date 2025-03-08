@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:allplant/core/constants/colors.dart';
+
 import 'package:allplant/core/widgets/button/add_plant_button.dart';
 import 'package:allplant/features/cubit/myplants/my_plant_cubit.dart';
 import 'package:allplant/features/cubit/myplants/my_plants_state.dart';
@@ -14,43 +14,21 @@ class MyPlantsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PlantListCubit(), // 📌 PlantListCubit'i başlat
+      create: (context) => PlantListCubit(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("My Plants"),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                // Menü veya Drawer açma işlemleri
-              },
-            ),
-          ],
+          actions: [IconButton(icon: const Icon(Icons.menu), onPressed: () {})],
         ),
 
         body: BlocBuilder<PlantListCubit, PlantListState>(
           builder: (context, state) {
             if (state is PlantListLoading) {
-              return const Center(child: CircularProgressIndicator()); // Yükleniyor animasyonu
+              return const Center(child: CircularProgressIndicator());
             } else if (state is PlantListEmpty) {
               return const Center(child: Text("Henüz bitki eklemediniz."));
             } else if (state is PlantListLoaded) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: GridView.builder(
-                  itemCount: state.plants.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.55,
-                  ),
-                  itemBuilder: (context, index) {
-                    final plant = state.plants[index];
-                    return _buildPlantCard(context, plant, index);
-                  },
-                ),
-              );
+              return Padding(padding: const EdgeInsets.all(16.0), child: plantGridView(state));
             } else {
               return const Center(child: Text("Bir hata oluştu."));
             }
@@ -62,55 +40,62 @@ class MyPlantsScreen extends StatelessWidget {
     );
   }
 
+  GridView plantGridView(PlantListLoaded state) {
+    return GridView.builder(
+      itemCount: state.plants.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 0.7,
+      ),
+      itemBuilder: (context, index) {
+        final plant = state.plants[index];
+        return _buildPlantCard(context, plant, index);
+      },
+    );
+  }
+
   Widget _buildPlantCard(BuildContext context, Plant plant, int index) {
-    final int daysSinceWatered = DateTime.now().difference(plant.lastWateredDate).inDays;
-
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.cardBackground),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-              child: Image.file(File(plant.imageUrl), fit: BoxFit.cover),
+          SizedBox(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.file(File(plant.imageUrl), fit: BoxFit.cover),
+              ),
             ),
+          ),
+          Divider(
+            color: Colors.grey.shade400, // Çizginin rengi
+            thickness: 2.0, // Çizginin kalınlığı
+            indent: 10,
+            endIndent: 10,
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              plant.name,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(plant.nickname ?? "No nickname", style: Theme.of(context).textTheme.bodySmall),
-          ),
-
-          // Son Sulama Chip
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: Chip(
-              avatar: const Icon(Icons.water_drop, color: Colors.blue),
-              label: Text("$daysSinceWatered gün önce sulandı"),
-              backgroundColor: Colors.blue.shade50,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    plant.name,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Color(0xFF579133)),
+                  onPressed: () {
+                    context.read<PlantListCubit>().deletePlant(index);
+                  },
+                ),
+              ],
             ),
           ),
-
-          // Silme Butonu
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                context.read<PlantListCubit>().deletePlant(index); // 📌 Hive’dan silme işlemi
-              },
-            ),
-          ),
-
-          const SizedBox(height: 8),
         ],
       ),
     );
