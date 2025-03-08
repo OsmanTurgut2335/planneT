@@ -79,7 +79,10 @@ class AddPlantCubit extends Cubit<AddPlantState> {
       savePlant();
     }
   }
-
+  // Bitki türünü ayarlamak için yeni metot
+  void setPlantType(String type) {
+    emit(state.copyWith(plantType: type));
+  }
   void showImagePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,

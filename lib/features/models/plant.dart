@@ -16,20 +16,24 @@ class Plant extends HiveObject {
   @HiveField(3)
   final int wateringFrequencyInDays;
 
-  // Yeni alan: Nullable nickname
   @HiveField(4)
   final String? nickname;
 
   @HiveField(5)
   bool isWateredToday;
 
+
+  @HiveField(6)
+  final String plantType;
+
   Plant({
     required this.name,
     required this.imageUrl,
     required this.lastWateredDate,
     required this.wateringFrequencyInDays,
-    this.nickname, // nullable olduğu için required değil
+    this.nickname,
     this.isWateredToday = false,
+    this.plantType = 'Diğer',
   });
 
   int get daysUntilNextWatering {

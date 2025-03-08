@@ -9,15 +9,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //TODO DO THE INITIALIZING AT INTRO SCREEN OR SOMETHING
-  // Initialize Hive for Flutter
+
   
   await Hive.initFlutter();
   
-  // Register your Plant adapter
+
   Hive.registerAdapter(PlantAdapter());
   
-  // Open the 'plants' box (this opens it once for the entire app)
+
   await Hive.openBox<Plant>('plants');
   
   runApp(

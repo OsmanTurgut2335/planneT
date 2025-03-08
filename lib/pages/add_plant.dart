@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:allplant/features/widgets/plant_type_dropdown.dart';
+import 'package:allplant/features/widgets/watering_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +10,6 @@ import 'package:allplant/core/constants/strings.dart';
 import 'package:allplant/features/cubit/addplant/add_plant_cubit.dart';
 import 'package:allplant/features/cubit/addplant/add_plant_state.dart';
 import 'package:allplant/features/repository/add_plant_repository.dart';
-
-
 
 class AddPlantScreen extends StatefulWidget {
   const AddPlantScreen({super.key});
@@ -30,13 +30,9 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
         child: BlocConsumer<AddPlantCubit, AddPlantState>(
           listener: (context, state) {
             if (state.isSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text(AppStrings.successMessage)),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.successMessage)));
             } else if (state.error != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error!)),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
             }
           },
           builder: (context, state) {
@@ -55,28 +51,31 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                       onSaved: (value) => cubit.setPlantName(value!),
                     ),
                     const SizedBox(height: 15),
-                    CustomTextField(
-                      label: AppStrings.nicknameLabel,
-                      onSaved: (value) => cubit.setPlantNickname(value),
-                    ),
+                    CustomTextField(label: AppStrings.nicknameLabel, onSaved: (value) => cubit.setPlantNickname(value)),
                     const SizedBox(height: 15),
+                    PlantTypeDropdown(
+                      onSelected: (selectedType) {
+                        context.read<AddPlantCubit>().setPlantType(selectedType);
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     // 💧 Watering Frequency Display and Slider
                     Text(
                       "${AppStrings.wateringFrequencyLabel} ${state.wateringFrequency} gün",
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const WateringSlider(),
                     const SizedBox(height: 15),
-                    // 📅 Last Watered Date Picker
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "${AppStrings.lastWateredLabel} ${state.lastWateredDate.toString().split(' ')[0]}",
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_today, color: Colors.green),
+                          icon: const Icon(Icons.calendar_today, color: Color(0xFF2B3D36)),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -99,8 +98,8 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                           ImagePickerWidget(state: state),
                           TextButton.icon(
                             onPressed: () => cubit.showImagePicker(context),
-                            icon: const Icon(Icons.image),
-                            label: const Text(AppStrings.selectImage),
+                            icon: const Icon(Icons.image, color: Color(0xFF2B3D36)),
+                            label: Text(AppStrings.selectImage, style: Theme.of(context).textTheme.bodyLarge),
                           ),
                         ],
                       ),
@@ -113,7 +112,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                       child: Center(
                         child: FloatingActionButton.extended(
                           onPressed: () => cubit.validateAndSaveForm(_formKey),
-                          label: const Text(AppStrings.savePlant),
+                          label: Text(AppStrings.savePlant),
                         ),
                       ),
                     ),
@@ -128,29 +127,6 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
   }
 }
 
-class WateringSlider extends StatelessWidget {
-  const WateringSlider({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AddPlantCubit>();
-    final wateringFrequency = context.select<AddPlantCubit, int>(
-      (cubit) => cubit.state.wateringFrequency,
-    );
-
-    return Slider(
-      value: wateringFrequency.toDouble(),
-      min: 1,
-      max: 30,
-      divisions: 29,
-      label: wateringFrequency.toString(),
-      onChanged: (value) {
-        cubit.updateWateringFrequency(value.toInt());
-      },
-    );
-  }
-}
-
 class CustomTextField extends StatelessWidget {
   final String label;
   final String? Function(String?)? validator;
@@ -160,11 +136,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(labelText: label),
-      validator: validator,
-      onSaved: onSaved,
-    );
+    return TextFormField(decoration: InputDecoration(labelText: label), validator: validator, onSaved: onSaved);
   }
 }
 
@@ -176,18 +148,14 @@ class ImagePickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.imagePath != null) {
-      return Image.file(File(state.imagePath!), width: 250, height: 250);
+      return Image.file(File(state.imagePath!), width: 200, height: 200);
     } else {
       return Container(
-        width: 250,
-        height: 250,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(10),
-        ),
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
         child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
       );
     }
   }
 }
-

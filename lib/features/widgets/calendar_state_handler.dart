@@ -91,9 +91,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
 
   List<String> _getEventsForDay(DateTime day, Map<DateTime, List<String>> wateringSchedule) {
     DateTime normalizedDay = DateTime(day.year, day.month, day.day);
-    print(wateringSchedule);
-    print(normalizedDay);
-    print(wateringSchedule[normalizedDay]);
+
     return wateringSchedule[normalizedDay] ?? [];
   }
 }

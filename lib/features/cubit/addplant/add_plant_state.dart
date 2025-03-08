@@ -4,13 +4,14 @@ class AddPlantState {
   final String? imagePath;
   final DateTime lastWateredDate;
   final int wateringFrequency;
-  
   final bool isLoading;
   final bool isSuccess;
   final String? error;
 
- 
-   AddPlantState({
+  // Yeni eklenen alan: Bitki Türü
+  final String plantType;
+
+  AddPlantState({
     this.plantName = '',
     this.plantNickname,
     this.imagePath,
@@ -19,8 +20,8 @@ class AddPlantState {
     this.isLoading = false,
     this.isSuccess = false,
     this.error,
+    this.plantType = 'Diğer', // Varsayılan değer
   }) : lastWateredDate = lastWateredDate ?? DateTime.now();
-
 
   AddPlantState copyWith({
     String? plantName,
@@ -31,6 +32,7 @@ class AddPlantState {
     bool? isLoading,
     bool? isSuccess,
     String? error,
+    String? plantType,
   }) {
     return AddPlantState(
       plantName: plantName ?? this.plantName,
@@ -40,7 +42,8 @@ class AddPlantState {
       wateringFrequency: wateringFrequency ?? this.wateringFrequency,
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
-      error: error, 
+      error: error,
+      plantType: plantType ?? this.plantType,
     );
   }
 }

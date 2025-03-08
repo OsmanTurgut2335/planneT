@@ -18,7 +18,7 @@ class _PlantCardState extends State<PlantCard> {
     super.didChangeDependencies();
     _fileExistsFuture = File(widget.plant.imageUrl).exists().then((exists) {
       if (exists) {
-        // Dosya varsa resmi önbelleğe al
+ 
         precacheImage(FileImage(File(widget.plant.imageUrl)), context);
       }
       return exists;
@@ -31,7 +31,7 @@ class _PlantCardState extends State<PlantCard> {
       future: _fileExistsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Yükleniyor göstergesi (veya boş container)
+   
           return Container(
             width: 120,
             height: 160,
@@ -39,7 +39,7 @@ class _PlantCardState extends State<PlantCard> {
             child: const Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasData && snapshot.data == true) {
-          // Dosya mevcut, resmi göster
+   
           final displayName = widget.plant.nickname?.isNotEmpty == true
               ? widget.plant.nickname
               : widget.plant.name;
@@ -82,7 +82,7 @@ class _PlantCardState extends State<PlantCard> {
             ),
           );
         } else {
-          // Dosya bulunamadıysa placeholder göster
+
           return Container(
             width: 250,
             height: 250,

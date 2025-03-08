@@ -1,11 +1,9 @@
-
 import 'package:allplant/features/models/plant.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 class AddPlantRepository {
   final Box<Plant> plantBox;
-  final ImagePicker _picker = ImagePicker();
 
   AddPlantRepository() : plantBox = Hive.box<Plant>('plants');
 
@@ -19,7 +17,6 @@ class AddPlantRepository {
     return plantBox.values.toList();
   }
 
-
   // 🗑 Bir bitkiyi sil
   Future<void> deletePlant(int index) async {
     await plantBox.deleteAt(index);
@@ -29,6 +26,4 @@ class AddPlantRepository {
   Future<void> updatePlant(int index, Plant updatedPlant) async {
     await plantBox.putAt(index, updatedPlant);
   }
-
-
 }

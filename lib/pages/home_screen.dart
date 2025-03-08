@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/widgets/button/add_plant_button.dart';
 import 'package:allplant/features/widgets/image/leaf_image.dart';
-import 'package:allplant/features/widgets/myplants_listview.dart';
-import 'package:allplant/features/widgets/random_info_text.dart';
+import 'package:allplant/features/widgets/list/myplants_listview.dart';
+import 'package:allplant/features/widgets/text/random_info_text.dart';
 
-import 'package:allplant/features/widgets/upcoming_water_list.dart';
+import 'package:allplant/features/widgets/list/upcoming_water_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

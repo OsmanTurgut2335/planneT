@@ -1,5 +1,5 @@
 
-import 'package:allplant/features/models/plant.dart';
+
 import 'package:allplant/features/models/upcoming_event.dart';
 
 abstract class WateringState {}
