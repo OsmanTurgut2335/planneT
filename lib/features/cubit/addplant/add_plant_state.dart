@@ -1,27 +1,46 @@
-abstract class AddPlantState {}
-
-class AddPlantInitial extends AddPlantState {}
-
-class AddPlantLoading extends AddPlantState {}
-
-class AddPlantSuccess extends AddPlantState {}
-
-class AddPlantFailure extends AddPlantState {
-  final String error;
-  AddPlantFailure(this.error);
-}
-
-class AddPlantImageSelected extends AddPlantState {
-  final String imagePath;
-  AddPlantImageSelected(this.imagePath);
-}
-
-class AddPlantDateUpdated extends AddPlantState {
+class AddPlantState {
+  final String plantName;
+  final String? plantNickname;
+  final String? imagePath;
   final DateTime lastWateredDate;
-  AddPlantDateUpdated(this.lastWateredDate);
-}
-
-class AddPlantWateringUpdated extends AddPlantState {
   final int wateringFrequency;
-  AddPlantWateringUpdated(this.wateringFrequency);
+  
+  final bool isLoading;
+  final bool isSuccess;
+  final String? error;
+
+ 
+   AddPlantState({
+    this.plantName = '',
+    this.plantNickname,
+    this.imagePath,
+    DateTime? lastWateredDate,
+    this.wateringFrequency = 7,
+    this.isLoading = false,
+    this.isSuccess = false,
+    this.error,
+  }) : lastWateredDate = lastWateredDate ?? DateTime.now();
+
+
+  AddPlantState copyWith({
+    String? plantName,
+    String? plantNickname,
+    String? imagePath,
+    DateTime? lastWateredDate,
+    int? wateringFrequency,
+    bool? isLoading,
+    bool? isSuccess,
+    String? error,
+  }) {
+    return AddPlantState(
+      plantName: plantName ?? this.plantName,
+      plantNickname: plantNickname ?? this.plantNickname,
+      imagePath: imagePath ?? this.imagePath,
+      lastWateredDate: lastWateredDate ?? this.lastWateredDate,
+      wateringFrequency: wateringFrequency ?? this.wateringFrequency,
+      isLoading: isLoading ?? this.isLoading,
+      isSuccess: isSuccess ?? this.isSuccess,
+      error: error, 
+    );
+  }
 }
