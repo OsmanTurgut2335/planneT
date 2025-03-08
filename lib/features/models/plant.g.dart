@@ -20,13 +20,14 @@ class PlantAdapter extends TypeAdapter<Plant> {
       lastWateredDate: fields[2] as DateTime,
       wateringFrequencyInDays: fields[3] as int,
       nickname: fields[4] as String?,
+      isWateredToday: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Plant obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -36,7 +37,9 @@ class PlantAdapter extends TypeAdapter<Plant> {
       ..writeByte(3)
       ..write(obj.wateringFrequencyInDays)
       ..writeByte(4)
-      ..write(obj.nickname);
+      ..write(obj.nickname)
+      ..writeByte(5)
+      ..write(obj.isWateredToday);
   }
 
   @override

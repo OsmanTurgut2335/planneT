@@ -19,4 +19,5 @@ class PlantCubit extends Cubit<PlantState> {
       emit(PlantError("Bitki eklenirken hata oluştu"));
     }
   }
+  
 }

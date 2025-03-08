@@ -1,9 +1,12 @@
 import 'dart:io';
+
+import 'package:allplant/core/constants/strings.dart';
 import 'package:allplant/features/cubit/addplant/add_plant_cubit.dart';
 import 'package:allplant/features/cubit/addplant/add_plant_state.dart';
+import 'package:allplant/features/repository/add_plant_repository.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddPlantScreen extends StatefulWidget {
   const AddPlantScreen({super.key});
@@ -18,13 +21,16 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Bitki Ekle")),
+      appBar: AppBar(title: const Text(AppStrings.appBarTitle)), // 📌 Metin sabitten alındı
+
       body: BlocProvider(
-        create: (context) => AddPlantCubit(),
+        create: (context) => AddPlantCubit(AddPlantRepository()),
         child: BlocConsumer<AddPlantCubit, AddPlantState>(
           listener: (context, state) {
             if (state is AddPlantSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bitki başarıyla eklendi!")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text(AppStrings.successMessage)), // 📌 Başarı mesajı
+              );
             } else if (state is AddPlantFailure) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
             }
@@ -39,42 +45,36 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 🌿 Bitki Adı
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: "Bitki Adı"),
-                      validator: (value) => value == null || value.isEmpty ? "Lütfen bitki adını girin" : null,
+                    CustomTextField(
+                      label: AppStrings.plantNameLabel,
+                      validator: cubit.validatePlantName,
                       onSaved: (value) => cubit.setPlantName(value!),
                     ),
-                    const SizedBox(height: 10),
 
-                    // 🌿 Takma Ad (Opsiyonel)
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: "Takma Ad (Opsiyonel)"),
+                    const SizedBox(height: 15),
+
+                    CustomTextField(
+                      label: AppStrings.nicknameLabel, // 📌 Takma Ad
                       onSaved: (value) => cubit.setPlantNickname(value),
                     ),
-                    const SizedBox(height: 20),
+
+                    const SizedBox(height: 15),
 
                     // 💧 Sulama Sıklığı
                     Text(
-                      "Sulama Sıklığı: ${cubit.wateringFrequency} gün",
+                      "${AppStrings.wateringFrequencyLabel} ${cubit.wateringFrequency} gün",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    Slider(
-                      value: cubit.wateringFrequency.toDouble(),
-                      min: 1,
-                      max: 30,
-                      divisions: 29,
-                      label: cubit.wateringFrequency.toString(),
-                      onChanged: (value) => cubit.updateWateringFrequency(value.toInt()),
-                    ),
-                    const SizedBox(height: 10),
+                    WateringSlider(),
+                    // WateringSlider(cubit: cubit),
+                    const SizedBox(height: 15),
 
                     // 📅 Son Sulama Tarihi Seçici
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Son sulama: ${cubit.lastWateredDate.toString().split(' ')[0]}',
+                          "${AppStrings.lastWateredLabel} ${cubit.lastWateredDate.toString().split(' ')[0]}",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
 
@@ -100,21 +100,11 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                     Center(
                       child: Column(
                         children: [
-                          state is AddPlantImageSelected
-                              ? Image.file(File(state.imagePath), width: 250, height: 250)
-                              : Container(
-                                width: 250,
-                                height: 250,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
-                              ),
+                          ImagePickerWidget(state: state), // 📌 Daha temiz ve yönetilebilir hale geldi!
                           TextButton.icon(
-                            onPressed: () => _showImageSourceDialog(context, cubit),
+                            onPressed: () => cubit.showImagePicker(context),
                             icon: const Icon(Icons.image),
-                            label: const Text("Fotoğraf Seç"),
+                            label: const Text(AppStrings.selectImage),
                           ),
                         ],
                       ),
@@ -126,14 +116,9 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              cubit.savePlant();
-                            }
-                          },
-                          child: const Text("Bitkiyi Kaydet"),
+                        child: FloatingActionButton.extended(
+                          onPressed: () => cubit.validateAndSaveForm(_formKey),
+                          label: const Text(AppStrings.savePlant),
                         ),
                       ),
                     ),
@@ -146,32 +131,60 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
       ),
     );
   }
+}
 
-  void _showImageSourceDialog(BuildContext context, AddPlantCubit cubit) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text("Kameradan Çek"),
-              onTap: () {
-                Navigator.pop(context);
-                cubit.pickImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text("Galeriden Seç"),
-              onTap: () {
-                Navigator.pop(context);
-                cubit.pickImage(ImageSource.gallery);
-              },
-            ),
-          ],
+class WateringSlider extends StatelessWidget {
+  const WateringSlider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AddPlantCubit, AddPlantState>(
+      buildWhen: (previous, current) => current is AddPlantWateringUpdated,
+      builder: (context, state) {
+        final cubit = context.read<AddPlantCubit>();
+        return Slider(
+          value: cubit.wateringFrequency.toDouble(),
+          min: 1,
+          max: 30,
+          divisions: 29,
+          label: cubit.wateringFrequency.toString(),
+          onChanged: (value) => cubit.updateWateringFrequency(value.toInt()),
         );
       },
     );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final String label;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
+
+  const CustomTextField({super.key, required this.label, this.validator, this.onSaved});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(decoration: InputDecoration(labelText: label), validator: validator, onSaved: onSaved);
+  }
+}
+
+class ImagePickerWidget extends StatelessWidget {
+  final AddPlantState state;
+
+  const ImagePickerWidget({super.key, required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    if (state is AddPlantImageSelected) {
+      final imagePath = (state as AddPlantImageSelected).imagePath;
+      return Image.file(File(imagePath), width: 250, height: 250);
+    } else {
+      return Container(
+        width: 250,
+        height: 250,
+        decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
+        child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
+      );
+    }
   }
 }

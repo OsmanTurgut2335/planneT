@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Ana Ekran")),
       body: Stack(
         children: [
           // Arka plan ve dekoratif görseller
@@ -48,11 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 70),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Center(child: Text("Ana Ekran", style: Theme.of(context).textTheme.headlineLarge)),
-                ),
                 const SizedBox(height: Paddings.homeScreenPadding),
 
                 // Üst kısım scrollable
@@ -71,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text("Yaklaşan Sulamalar", style: Theme.of(context).textTheme.titleMedium),
                           const SizedBox(height: Paddings.homeScreenPadding),
 
-                          // Yaklaşan Sulamalar Listesi
                           const UpcomingWateringsList(),
 
                           DidYouKnowSection(info: selectedFact),

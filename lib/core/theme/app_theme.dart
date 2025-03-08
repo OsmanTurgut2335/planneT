@@ -15,6 +15,8 @@ class AppTheme {
         headlineLarge: TextStyle(fontSize: 30, fontFamily: 'Montserrat'),
         // Diğer text stilleri...
       ),
+
+      floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Color(0xFF569033)),
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
     );
   }

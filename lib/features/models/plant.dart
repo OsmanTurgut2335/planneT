@@ -20,12 +20,16 @@ class Plant extends HiveObject {
   @HiveField(4)
   final String? nickname;
 
+  @HiveField(5)
+  bool isWateredToday;
+
   Plant({
     required this.name,
     required this.imageUrl,
     required this.lastWateredDate,
     required this.wateringFrequencyInDays,
     this.nickname, // nullable olduğu için required değil
+    this.isWateredToday = false,
   });
 
   int get daysUntilNextWatering {
