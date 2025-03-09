@@ -10,22 +10,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  
   await Hive.initFlutter();
-  
 
   Hive.registerAdapter(PlantAdapter());
-  
 
   await Hive.openBox<Plant>('plants');
-  
+
   runApp(
     MultiBlocProvider(
-      providers: [
-        BlocProvider<PlantCubit>(
-          create: (context) => PlantCubit(PlantRepository()),
-        ),
-      ],
+      providers: [BlocProvider<PlantCubit>(create: (context) => PlantCubit(PlantRepository()))],
       child: const MyApp(),
     ),
   );
@@ -33,12 +26,12 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-  
+
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
 
   void toggleTheme() {

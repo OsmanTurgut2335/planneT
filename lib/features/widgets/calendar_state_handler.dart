@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:allplant/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -54,7 +55,9 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
               firstDay: DateTime.now(),
               lastDay: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
               calendarFormat: CalendarFormat.month,
+
               selectedDayPredicate: (day) => isSameDay(_selectedDay.value, day),
+              startingDayOfWeek: StartingDayOfWeek.monday,
               onDaySelected: (selectedDay, newFocusedDay) {
                 setState(() {
                   _selectedDay.value = selectedDay;
@@ -67,7 +70,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
                 markersMaxCount: 1,
                 todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
                 selectedDecoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
-                markerDecoration: BoxDecoration(color: Colors.green, shape: BoxShape.rectangle),
+                markerDecoration: BoxDecoration(color: AppColors.deepPine, shape: BoxShape.rectangle),
               ),
             );
           },

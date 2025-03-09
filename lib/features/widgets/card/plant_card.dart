@@ -18,7 +18,6 @@ class _PlantCardState extends State<PlantCard> {
     super.didChangeDependencies();
     _fileExistsFuture = File(widget.plant.imageUrl).exists().then((exists) {
       if (exists) {
- 
         precacheImage(FileImage(File(widget.plant.imageUrl)), context);
       }
       return exists;
@@ -31,7 +30,6 @@ class _PlantCardState extends State<PlantCard> {
       future: _fileExistsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-   
           return Container(
             width: 120,
             height: 160,
@@ -39,60 +37,41 @@ class _PlantCardState extends State<PlantCard> {
             child: const Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasData && snapshot.data == true) {
-   
-          final displayName = widget.plant.nickname?.isNotEmpty == true
-              ? widget.plant.nickname
-              : widget.plant.name;
+          final displayName = widget.plant.nickname?.isNotEmpty == true ? widget.plant.nickname : widget.plant.name;
           return Container(
             width: 120,
             margin: const EdgeInsets.only(right: 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.white,
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
                   child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(12)),
-                    child: Image.file(
-                      File(widget.plant.imageUrl),
-                      width: 250,
-                      height: 250,
-                      fit: BoxFit.cover,
-                    ),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: Image.file(File(widget.plant.imageUrl), width: 250, height: 250, fit: BoxFit.cover),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.green.shade900,
-                    borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(12)),
+                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
                   ),
                   child: Text(
                     displayName ?? "",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
             ),
           );
         } else {
-
           return Container(
             width: 250,
             height: 250,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Center(
-              child: Icon(Icons.image, size: 50, color: Colors.grey),
-            ),
+            decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
+            child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
           );
         }
       },

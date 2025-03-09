@@ -40,18 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(title: Text("Ana Ekran")),
       body: Stack(
         children: [
-          // Arka plan ve dekoratif görseller
-          const LeafImage(position: LeafPosition.topLeft),
-          const LeafImage(position: LeafPosition.bottomRight),
-
-          // İçeriği kapsayan alan
+          //  const LeafImage(position: LeafPosition.topLeft),
+          //  const LeafImage(position: LeafPosition.bottomRight),
           Positioned.fill(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: Paddings.homeScreenPadding),
 
-                // Üst kısım scrollable
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(

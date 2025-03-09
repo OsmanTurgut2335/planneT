@@ -7,8 +7,8 @@ class AppTheme {
       brightness: Brightness.light,
       primarySwatch: Colors.green,
       textTheme: TextTheme(
-        bodySmall: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-        bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
+        bodyMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         bodyLarge: TextStyle(color: Colors.black, fontFamily: 'ProtestRevolution'),
         headlineSmall: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'Montserrat'),
         headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -16,11 +16,15 @@ class AppTheme {
         // Diğer text stilleri...
       ),
 
+      splashColor: Colors.transparent, // Removes ripple effect
+
+      appBarTheme: AppBarTheme(color: Colors.transparent, centerTitle: true),
+
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Color(0xFF569033),
         extendedTextStyle: TextStyle(color: Colors.black, fontFamily: 'ProtestRevolution'),
       ),
-      scaffoldBackgroundColor: AppColors.scaffoldBackground,
+      scaffoldBackgroundColor: AppColors.alternateScaffoldBackground,
       inputDecorationTheme: InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFF569033))),
         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFF2B3D36))),
