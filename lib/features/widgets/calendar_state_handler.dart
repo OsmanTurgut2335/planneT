@@ -3,7 +3,7 @@ import 'package:allplant/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'package:allplant/features/cubit/myplants/my_plants_state.dart';
+import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 
 class CalendarStateHandler extends StatefulWidget {
   final PlantListState state; // 🔥 Artık dışarıdan state alıyor!
@@ -36,7 +36,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
         child: Text((widget.state as PlantsCalenderError).message, style: const TextStyle(color: Colors.red)),
       );
     } else if (widget.state is PlantsCalenderEmpty) {
-      return const Center(child: Text("Bugün yapılacak bir şey yok!"));
+      return const Center(child: Text("Bu tarihte yapılacak bir şey yok!"));
     } else if (widget.state is PlantsCalenderLoaded) {
       final wateringSchedule = (widget.state as PlantsCalenderLoaded).wateringSchedule;
       return _buildCalendar(wateringSchedule);
@@ -84,7 +84,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
               child:
                   selectedEvents.isNotEmpty
                       ? WateringPlantsColumn(events: selectedEvents)
-                      : const Padding(padding: EdgeInsets.all(8.0), child: Text("Bugün sulama yok.")),
+                      : const Padding(padding: EdgeInsets.all(8.0), child: Text("Bu tarihte sulama yok.")),
             );
           },
         ),
@@ -110,7 +110,7 @@ class WateringPlantsColumn extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text("Bugün sulanması gereken bitkiler:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          child: Text("Bu tarihte sulanması gereken bitkiler:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
         // 🔥 Replace Wrap with a Column of Cards
         ...events.map(

@@ -1,7 +1,10 @@
-import 'package:allplant/features/cubit/watering/watering_cubit.dart';
+import 'package:allplant/core/cubit/watering/watering_cubit.dart';
+import 'package:allplant/core/repository/watering/water_repository.dart';
+import 'package:allplant/features/models/plant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:allplant/features/cubit/watering/watering_state.dart';
+import 'package:allplant/core/cubit/watering/watering_state.dart';
+import 'package:hive/hive.dart';
 
 
 class UpcomingWateringsList extends StatelessWidget {
@@ -11,7 +14,9 @@ class UpcomingWateringsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       // Provide the cubit and immediately load the upcoming waterings.
-      create: (_) => TodaysWateringsCubit()..loadUpcomingWaterings(),
+       create: (_) => TodaysWateringsCubit(
+      repository: WateringRepository(plantBox: Hive.box<Plant>('plants'))
+    ),
       child: BlocBuilder<TodaysWateringsCubit, WateringState>(
         builder: (context, state) {
           if (state is TodaysWateringsLoading) {

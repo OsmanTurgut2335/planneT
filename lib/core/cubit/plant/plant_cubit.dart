@@ -1,5 +1,5 @@
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/repository/plant_repository.dart';
+import 'package:allplant/core/repository/plant/plant_repository.dart';
 import 'package:bloc/bloc.dart';
 
 
@@ -12,9 +12,9 @@ class PlantCubit extends Cubit<PlantState> {
 
   Future<void> addPlant(Plant plant) async {
     try {
-      emit(PlantLoading()); // Yükleniyor state'i
+      emit(PlantLoading()); 
       await plantRepository.addPlant(plant);
-      emit(PlantAdded()); // Başarıyla eklendi state'i
+      emit(PlantAdded()); 
     } catch (e) {
       emit(PlantError("Bitki eklenirken hata oluştu"));
     }

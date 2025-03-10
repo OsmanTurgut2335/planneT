@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:allplant/core/constants/strings.dart';
-import 'package:allplant/features/cubit/addplant/add_plant_cubit.dart';
-import 'package:allplant/features/cubit/addplant/add_plant_state.dart';
-import 'package:allplant/features/repository/add_plant_repository.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
+import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPlantScreen extends StatefulWidget {
   const AddPlantScreen({super.key});
@@ -24,20 +26,33 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.appBarTitle)),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.go('/');
+          },
+          icon: Icon(Icons.arrow_back_outlined),
+        ),
+        title: const Text(AppStrings.appBarTitle),
+      ),
       body: BlocProvider(
         create: (context) => AddPlantCubit(AddPlantRepository()),
         child: BlocConsumer<AddPlantCubit, AddPlantState>(
           listener: (context, state) {
             if (state.isSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.successMessage)));
+              // 🔥 Reset the form
+              _formKey.currentState?.reset();
+
+              // 🔥 Reset the cubit state
+              context.read<AddPlantCubit>().resetState();
             } else if (state.error != null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
             }
           },
           builder: (context, state) {
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -77,12 +92,8 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                     ),
                     const SizedBox(height: 10),
 
-                    ImagePickerWidget(
-                      imagePath: state.imagePath,
-                      onPickImage: () {
-                        context.read<AddPlantCubit>().showImagePicker(context);
-                      },
-                    ),
+                    ImagePickerWidget(imagePath: state.imagePath, onPickImage: () => _onPickImage(context)),
+
                     const SizedBox(height: 15),
 
                     const Spacer(),
@@ -102,6 +113,34 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
           },
         ),
       ),
+    );
+  }
+
+  void _onPickImage(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text("Fotoğraf Çek"),
+              onTap: () {
+                Navigator.pop(context);
+                context.read<AddPlantCubit>().pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text("Galeriden Seç"),
+              onTap: () {
+                Navigator.pop(context);
+                context.read<AddPlantCubit>().pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

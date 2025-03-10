@@ -1,5 +1,5 @@
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/repository/add_plant_repository.dart';
+import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,12 +9,11 @@ class AddPlantCubit extends Cubit<AddPlantState> {
   final AddPlantRepository plantRepository;
   final ImagePicker _picker = ImagePicker();
 
-  AddPlantCubit(this.plantRepository) : super(AddPlantState()); // start with defaults
-
+  AddPlantCubit(this.plantRepository) : super(AddPlantState());
 
   String? validatePlantName(String? value) {
     if (value == null || value.isEmpty) {
-      return "Lütfen bitki adını girin!"; 
+      return "Lütfen bitki adını girin!";
     }
     return null;
   }
@@ -47,7 +46,6 @@ class AddPlantCubit extends Cubit<AddPlantState> {
   }
 
   Future<void> savePlant() async {
-    // Basic checks
     if (state.plantName.isEmpty) {
       emit(state.copyWith(error: "Lütfen bitki adını girin!"));
       return;
@@ -79,35 +77,21 @@ class AddPlantCubit extends Cubit<AddPlantState> {
       savePlant();
     }
   }
-  // Bitki türünü ayarlamak için yeni metot
+
+  void resetState() {
+    emit(AddPlantState(
+      plantName: '',
+      plantNickname: '',
+      imagePath: null,
+      lastWateredDate: DateTime.now(),
+      wateringFrequency: 7,
+      isLoading: false,
+      isSuccess: false,
+      error: null,
+    ));
+  }
+
   void setPlantType(String type) {
     emit(state.copyWith(plantType: type));
-  }
-  void showImagePicker(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text("Fotoğraf Çek"),
-              onTap: () {
-                Navigator.pop(context);
-                pickImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text("Galeriden Seç"),
-              onTap: () {
-                Navigator.pop(context);
-                pickImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

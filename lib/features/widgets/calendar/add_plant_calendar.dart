@@ -25,7 +25,30 @@ class DatePickerWidget extends StatelessWidget {
               initialDate: selectedDate,
               firstDate: DateTime(2000),
               lastDate: DateTime.now(),
+
+              // 🔥 Apply Custom Theme
+              builder: (context, child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    primaryColor: AppColors.deepPine, // Top bar color
+                    scaffoldBackgroundColor: AppColors.alternateScaffoldBackground, // Background
+                    dialogBackgroundColor: Colors.white, // Main dialog color
+                    textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.deepPine, // Buttons color (OK / Cancel)
+                      ),
+                    ),
+                    colorScheme: ColorScheme.light(
+                      primary: AppColors.deepPine, // Selected date circle
+                      onPrimary: Colors.white, // Selected text color
+                      onSurface: Colors.black, // Default text color
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
             );
+
             if (pickedDate != null) {
               onDateSelected(pickedDate);
             }

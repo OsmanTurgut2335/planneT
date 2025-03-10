@@ -1,6 +1,6 @@
 import 'package:allplant/core/constants/app_colors.dart';
-import 'package:allplant/features/cubit/addplant/add_plant_cubit.dart';
-import 'package:allplant/features/cubit/addplant/add_plant_state.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

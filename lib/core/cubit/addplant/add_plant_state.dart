@@ -8,7 +8,7 @@ class AddPlantState {
   final bool isSuccess;
   final String? error;
 
-  // Yeni eklenen alan: Bitki Türü
+
   final String plantType;
 
   AddPlantState({
@@ -20,7 +20,7 @@ class AddPlantState {
     this.isLoading = false,
     this.isSuccess = false,
     this.error,
-    this.plantType = 'Diğer', // Varsayılan değer
+    this.plantType = 'Diğer', 
   }) : lastWateredDate = lastWateredDate ?? DateTime.now();
 
   AddPlantState copyWith({

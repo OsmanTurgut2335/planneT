@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 import 'package:allplant/core/widgets/button/add_plant_button.dart';
-import 'package:allplant/features/cubit/myplants/my_plant_cubit.dart';
-import 'package:allplant/features/cubit/myplants/my_plants_state.dart';
+import 'package:allplant/core/cubit/myplants/my_plant_cubit.dart';
+import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 import 'package:allplant/features/models/plant.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MyPlantsScreen extends StatelessWidget {
   const MyPlantsScreen({super.key});
@@ -14,11 +16,11 @@ class MyPlantsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PlantListCubit(),
+      create: (context) => PlantListCubit(repository: MyPlantsRepository()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("My Plants"),
-          actions: [IconButton(icon: const Icon(Icons.menu), onPressed: () {})],
+          title: const Text("Bitkilerim"),
+          //  actions: [IconButton(icon: const Icon(Icons.menu), onPressed: () {})],
         ),
 
         body: BlocBuilder<PlantListCubit, PlantListState>(
@@ -57,46 +59,54 @@ class MyPlantsScreen extends StatelessWidget {
   }
 
   Widget _buildPlantCard(BuildContext context, Plant plant, int index) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
-      child: Column(
-        children: [
-          SizedBox(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.file(File(plant.imageUrl), fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: () {
+        context.goNamed('plantDetail', pathParameters: {'id': plant.name.toString()}, extra: plant);
+      },
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
+        child: Column(
+          children: [
+            SizedBox(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.file(File(plant.imageUrl), fit: BoxFit.cover),
+                ),
               ),
             ),
-          ),
-          Divider(
-            color: Colors.grey.shade400, // Çizginin rengi
-            thickness: 2.0, // Çizginin kalınlığı
-            indent: 10,
-            endIndent: 10,
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    plant.name,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Color(0xFF579133)),
-                  onPressed: () {
-                    context.read<PlantListCubit>().deletePlant(index);
-                  },
-                ),
-              ],
+            Divider(
+              color: Colors.grey.shade400, // Çizginin rengi
+              thickness: 2.0, // Çizginin kalınlığı
+              indent: 10,
+              endIndent: 10,
             ),
-          ),
-        ],
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text(
+                        plant.name,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Color(0xFF579133)),
+                    onPressed: () {
+                      context.read<PlantListCubit>().deletePlant(index);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

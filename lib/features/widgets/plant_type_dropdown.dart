@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-
 class PlantTypeDropdown extends StatefulWidget {
   final Function(String) onSelected;
 
@@ -22,7 +21,6 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
     _loadData();
   }
 
-
   Future<void> _loadData() async {
     final String jsonString = await rootBundle.loadString('assets/plant_types.json');
     final Map<String, dynamic> data = json.decode(jsonString);
@@ -31,7 +29,6 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
     final cicekli = (data['genisYaprakli'] as List).cast<String>();
     final sarmasik = (data['cicekli'] as List).cast<String>();
     final diger = (data['diger'] as List).cast<String>();
-
 
     final allTypes = <String>[...dayanikli, ...cicekli, ...sarmasik, ...diger];
 
@@ -44,7 +41,6 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
 
   @override
   Widget build(BuildContext context) {
-  
     if (_options.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }

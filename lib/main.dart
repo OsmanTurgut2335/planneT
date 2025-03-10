@@ -1,15 +1,24 @@
 import 'package:allplant/core/router/app_router.dart';
 import 'package:allplant/core/theme/app_theme.dart';
-import 'package:allplant/features/cubit/plant/plant_cubit.dart';
+import 'package:allplant/core/cubit/plant/plant_cubit.dart';
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/repository/plant_repository.dart';
+import 'package:allplant/core/repository/plant/plant_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  
+// Burada sistem çubuğu renklerini ayarlıyoruz.
+ /* SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black, // Örnek olarak siyah ya da AppColors.deepPine
+      systemNavigationBarIconBrightness: Brightness.light,
+      // statusBarColor: Colors.transparent, // İstersen durum çubuğu (status bar) için de ayarla
+    ),
+  );*/
   await Hive.initFlutter();
 
   Hive.registerAdapter(PlantAdapter());
