@@ -1,3 +1,4 @@
+import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 
@@ -25,19 +26,7 @@ class PlantListCubit extends Cubit<PlantListState> {
     return repository.getWateringDates();
   }
 
-  void loadWateringDates() async {
-    emit(PlantsCalenderLoading());
-    try {
-      final wateringSchedule = await repository.loadWateringDates();
-      if (wateringSchedule.isEmpty) {
-        emit(PlantsCalenderEmpty());
-      } else {
-        emit(PlantsCalenderLoaded(wateringSchedule));
-      }
-    } catch (e) {
-      emit(PlantsCalenderError("Sulama tarihleri yüklenirken hata oluştu"));
-    }
-  }
+
 
   void deletePlant(int index) {
     repository.deletePlant(index);

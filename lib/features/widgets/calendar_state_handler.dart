@@ -1,12 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:allplant/core/constants/app_colors.dart';
+import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 
 class CalendarStateHandler extends StatefulWidget {
-  final PlantListState state; // 🔥 Artık dışarıdan state alıyor!
+  final CalendarState state; 
 
   const CalendarStateHandler({super.key, required this.state});
 

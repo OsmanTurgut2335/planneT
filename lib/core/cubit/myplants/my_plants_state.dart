@@ -17,19 +17,6 @@ class PlantListError extends PlantListState {
 }
 
 
-class PlantsCalenderLoading extends PlantListState {} 
-
-class PlantsCalenderLoaded extends PlantListState {
-  final Map<DateTime, List<String>> wateringSchedule;
-  PlantsCalenderLoaded(this.wateringSchedule);
-}
-
-class PlantsCalenderEmpty extends PlantListState {}
-
-class PlantsCalenderError extends PlantListState {
-  final String message;
-  PlantsCalenderError(this.message);
-}
 
 
 
