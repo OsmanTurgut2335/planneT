@@ -64,7 +64,7 @@ class UpcomingWateringsList extends StatelessWidget {
     );
   }
 
-  /// Returns a friendly message depending on how many days are left.
+
   String _buildSubtitle(DateTime wateringDate) {
     final daysLeft = _daysUntil(wateringDate);
     if (daysLeft <= 0) {
@@ -76,8 +76,7 @@ class UpcomingWateringsList extends StatelessWidget {
     }
   }
 
-  /// Normalizes both the current date and the given [wateringDate] to midnight,
-  /// then returns the difference in whole days.
+
   int _daysUntil(DateTime wateringDate) {
     final now = DateTime.now();
     final normalizedNow = DateTime(now.year, now.month, now.day);

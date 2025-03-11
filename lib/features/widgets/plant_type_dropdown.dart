@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlantTypeDropdown extends StatefulWidget {
   final Function(String) onSelected;
@@ -45,20 +49,27 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return DropdownButtonFormField<String>(
-      decoration: const InputDecoration(labelText: 'Bitki Türü'),
-      value: _selected,
-      items:
-          _options.map((type) {
-            return DropdownMenuItem(value: type, child: Text(type, style: Theme.of(context).textTheme.bodyLarge));
-          }).toList(),
-      onChanged: (value) {
-        if (value != null) {
-          setState(() {
-            _selected = value;
-          });
-          widget.onSelected(value);
-        }
+    return BlocBuilder<AddPlantCubit, AddPlantState>(
+      buildWhen: (previous, current) => previous.plantType != current.plantType,
+      builder: (context, state) {
+        return DropdownButtonFormField<String>(
+          decoration: const InputDecoration(labelText: 'Bitki Türü'),
+          value: _selected,
+          items:
+              _options.map((type) {
+                return DropdownMenuItem(value: type, child: Text(type, style: Theme.of(context).textTheme.bodyLarge));
+              }).toList(),
+          onChanged: (value) {
+            if (value != null) {
+             
+               setState(() {
+              _selected = value;
+            });
+            widget.onSelected(value);
+             context.read<AddPlantCubit>().updatePlantType(value);
+            }
+          },
+        );
       },
     );
   }

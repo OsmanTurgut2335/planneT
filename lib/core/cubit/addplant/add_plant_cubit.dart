@@ -45,6 +45,10 @@ class AddPlantCubit extends Cubit<AddPlantState> {
     emit(state.copyWith(wateringFrequency: frequency));
   }
 
+  void updatePlantType(String plantType) {
+    emit(state.copyWith(plantType: plantType));
+  }
+
   Future<void> savePlant() async {
     if (state.plantName.isEmpty) {
       emit(state.copyWith(error: "Lütfen bitki adını girin!"));
@@ -63,6 +67,7 @@ class AddPlantCubit extends Cubit<AddPlantState> {
         imageUrl: state.imagePath!,
         lastWateredDate: state.lastWateredDate,
         wateringFrequencyInDays: state.wateringFrequency,
+        plantType: state.plantType,
       );
       await plantRepository.addPlant(newPlant);
       emit(state.copyWith(isLoading: false, isSuccess: true));
@@ -79,16 +84,18 @@ class AddPlantCubit extends Cubit<AddPlantState> {
   }
 
   void resetState() {
-    emit(AddPlantState(
-      plantName: '',
-      plantNickname: '',
-      imagePath: null,
-      lastWateredDate: DateTime.now(),
-      wateringFrequency: 7,
-      isLoading: false,
-      isSuccess: false,
-      error: null,
-    ));
+    emit(
+      AddPlantState(
+        plantName: '',
+        plantNickname: '',
+        imagePath: null,
+        lastWateredDate: DateTime.now(),
+        wateringFrequency: 7,
+        isLoading: false,
+        isSuccess: false,
+        error: null,
+      ),
+    );
   }
 
   void setPlantType(String type) {
