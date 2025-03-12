@@ -26,7 +26,7 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
   }
 
   Future<void> _loadData() async {
-    final String jsonString = await rootBundle.loadString('assets/plant_types.json');
+    final String jsonString = await rootBundle.loadString('assets/data/plant_types.json');
     final Map<String, dynamic> data = json.decode(jsonString);
 
     final dayanikli = (data['sukulentKaktus'] as List).cast<String>();

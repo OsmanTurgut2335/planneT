@@ -14,7 +14,7 @@ class PlantGuideSection extends StatelessWidget {
         Text("Bitkilerim", style: Theme.of(context).textTheme.headlineMedium),
 
         const SizedBox(height: 12),
-        // Instead of dummyPlants, use Hive's listenable to fetch live data
+       
         ValueListenableBuilder(
           valueListenable: Hive.box<Plant>('plants').listenable(),
           builder: (context, Box<Plant> box, _) {

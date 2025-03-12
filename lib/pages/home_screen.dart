@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/widgets/button/add_plant_button.dart';
-import 'package:allplant/features/widgets/image/leaf_image.dart';
+import 'package:allplant/core/widgets/image/leaf_image.dart';
+
 import 'package:allplant/features/widgets/list/myplants_listview.dart';
 import 'package:allplant/features/widgets/text/random_info_text.dart';
 
@@ -17,21 +16,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //DUMMY DATA
-  final randomFacts = [
-    "Bitkiler oksijen üretir ve havayı temizler.",
-    "Monstera Deliciosa'nın dev yaprakları doğal deliklere sahiptir.",
-    "Kaktüsler su depolayarak kuraklığa dayanır.",
-    "Orkide çiçekleri çok uzun süre canlı kalabilir.",
-  ];
-
-  late String selectedFact;
-
   @override
   void initState() {
     super.initState();
-    final random = Random();
-    selectedFact = randomFacts[random.nextInt(randomFacts.length)];
   }
 
   @override
@@ -40,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(title: Text("Ana Ekran")),
       body: Stack(
         children: [
-          //  const LeafImage(position: LeafPosition.topLeft),
+          const LeafImage(position: LeafPosition.topRight),
           //  const LeafImage(position: LeafPosition.bottomRight),
           Positioned.fill(
             child: Column(
@@ -65,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           const UpcomingWateringsList(),
 
-                          DidYouKnowSection(info: selectedFact),
+                          DidYouKnowSection(),
                         ],
                       ),
                     ),

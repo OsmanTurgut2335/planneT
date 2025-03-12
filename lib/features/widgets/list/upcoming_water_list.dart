@@ -1,10 +1,9 @@
 import 'package:allplant/core/cubit/watering/watering_cubit.dart';
-import 'package:allplant/core/repository/watering/water_repository.dart';
-import 'package:allplant/features/models/plant.dart';
+import 'package:allplant/core/provider/provider_factory.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:allplant/core/cubit/watering/watering_state.dart';
-import 'package:hive/hive.dart';
 
 
 class UpcomingWateringsList extends StatelessWidget {
@@ -12,19 +11,13 @@ class UpcomingWateringsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      // Provide the cubit and immediately load the upcoming waterings.
-       create: (_) => TodaysWateringsCubit(
-      repository: WateringRepository(plantBox: Hive.box<Plant>('plants'))
-    ),
+    return buildWateringProvider(
       child: BlocBuilder<TodaysWateringsCubit, WateringState>(
         builder: (context, state) {
           if (state is TodaysWateringsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is TodaysWateringsError) {
-            return Center(
-              child: Text(state.message, style: const TextStyle(color: Colors.red)),
-            );
+            return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
           } else if (state is TodaysWateringsEmpty) {
             return const Center(child: Text("No upcoming waterings!"));
           } else if (state is TodaysWateringsLoaded) {
@@ -38,9 +31,7 @@ class UpcomingWateringsList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final event = events[index];
                   return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     child: ListTile(
                       leading: const Icon(Icons.alarm, color: Colors.green, size: 30),
                       title: Text(event.plant.name),
@@ -64,7 +55,6 @@ class UpcomingWateringsList extends StatelessWidget {
     );
   }
 
-
   String _buildSubtitle(DateTime wateringDate) {
     final daysLeft = _daysUntil(wateringDate);
     if (daysLeft <= 0) {
@@ -76,15 +66,10 @@ class UpcomingWateringsList extends StatelessWidget {
     }
   }
 
-
   int _daysUntil(DateTime wateringDate) {
     final now = DateTime.now();
     final normalizedNow = DateTime(now.year, now.month, now.day);
-    final normalizedWateringDate = DateTime(
-      wateringDate.year,
-      wateringDate.month,
-      wateringDate.day,
-    );
+    final normalizedWateringDate = DateTime(wateringDate.year, wateringDate.month, wateringDate.day);
     return normalizedWateringDate.difference(normalizedNow).inDays;
   }
 }

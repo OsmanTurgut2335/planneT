@@ -68,7 +68,7 @@ flutter:
 
   assets:
       - assets/images/
-      - assets/plant_types.json
+      - assets/data/
   #   - images/a_dot_ham.jpeg
 
  
