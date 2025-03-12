@@ -1,22 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 
 class DidYouKnowSection extends StatelessWidget {
   const DidYouKnowSection({super.key});
 
   Future<String> fetchRandomFact() async {
-    // JSON dosyasını assets'ten yükle
     final String jsonString = await rootBundle.loadString('assets/data/facts.json');
     final List<dynamic> jsonData = json.decode(jsonString);
-
-    // JSON içerisindeki verileri String listesine çevir
     final List<String> facts = jsonData.cast<String>();
-
-    // Rastgele bir gerçek seçmek için karıştır
     facts.shuffle(Random());
     return facts.first;
   }
@@ -29,15 +22,20 @@ class DidYouKnowSection extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text("Hata oluştu: ${snapshot.error}", style: const TextStyle(color: Colors.red)));
+          return Center(
+            child: Text(
+              '${DidYouKnowStrings.errorPrefix} ${snapshot.error}',
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text("Bilgi bulunamadı."));
+          return const Center(child: Text(DidYouKnowStrings.noData));
         } else {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom: 48),
             child: Column(
               children: [
-                Text("Bunu biliyor muydun ?", style: Theme.of(context).textTheme.titleMedium),
+                Text(DidYouKnowStrings.title, style: Theme.of(context).textTheme.titleMedium),
                 Text(snapshot.data!, style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
@@ -46,4 +44,12 @@ class DidYouKnowSection extends StatelessWidget {
       },
     );
   }
+}
+
+class DidYouKnowStrings {
+  DidYouKnowStrings._(); // private constructor prevents instantiation
+
+  static const String title = "Bunu biliyor muydun ?";
+  static const String errorPrefix = "Hata oluştu:";
+  static const String noData = "Bilgi bulunamadı.";
 }

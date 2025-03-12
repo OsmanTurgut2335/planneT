@@ -12,7 +12,7 @@ class HeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(
-          Paddings.textPadding
+          Paddings.defaultPadding
       ),
       child: Text(
         text,

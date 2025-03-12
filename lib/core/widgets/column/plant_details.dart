@@ -16,12 +16,12 @@ class PlantDetailColumn extends StatelessWidget {
       children: [
         Text(plant.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         Text("Bitki türü: ${plant.plantType}", style: TextStyle(color: Colors.grey.shade600)),
-        const SizedBox(height: Paddings.sizedBoxPadding),
+        const SizedBox(height: Paddings.largePadding),
         Text(
           "Son sulama tarihi: ${DateFormat('M/d/yyyy').format(plant.lastWateredDate)}",
           style: TextStyle(color: Colors.grey.shade600),
         ),
-        const SizedBox(height: Paddings.sizedBoxPadding),
+        const SizedBox(height: Paddings.largePadding),
       ],
     );
   }

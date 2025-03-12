@@ -1,5 +1,6 @@
 class Paddings {
-  static const textPadding = 8.0;
-  static const homeScreenPadding = 16.0;
-    static const sizedBoxPadding = 16.0;
+  const Paddings._();
+  static const defaultPadding = 8.0;
+  static const largePadding = 16.0;
+  static const borderRadius = 12.0;
 }

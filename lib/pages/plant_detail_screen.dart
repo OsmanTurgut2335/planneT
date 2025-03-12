@@ -12,7 +12,6 @@ import 'package:allplant/features/models/plant.dart';
 
 import 'package:go_router/go_router.dart';
 
-
 class PlantDetailScreen extends StatelessWidget {
   final Plant plant;
 
@@ -20,7 +19,7 @@ class PlantDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return buildWateringProvider(
+    return buildWateringProvider(
       child: Scaffold(
         appBar: AppBar(
           title: Text(plant.name.toUpperCase()),
@@ -44,13 +43,13 @@ class PlantDetailScreen extends StatelessWidget {
                         Container(
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Paddings.sizedBoxPadding),
+                            borderRadius: BorderRadius.circular(Paddings.largePadding),
                             color: AppColors.scaffoldBackground,
                           ),
-                          padding: const EdgeInsets.all(Paddings.sizedBoxPadding),
+                          padding: const EdgeInsets.all(Paddings.largePadding),
                           child: PlantDetailColumn(plant: plant),
                         ),
-                        const SizedBox(height: Paddings.sizedBoxPadding * 2),
+                        const SizedBox(height: Paddings.largePadding * 2),
                         PlantNextWateringsWidget(plant: plant),
                       ],
                     ),
@@ -85,12 +84,12 @@ class PlantNextWateringsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(Paddings.sizedBoxPadding),
+      color: AppColors.plantCardBackground,
+      padding: const EdgeInsets.all(Paddings.largePadding),
       child: Column(
         children: [
           const Text("Gelecek 3 Gün Planı", style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: Paddings.sizedBoxPadding / 2),
+          const SizedBox(height: Paddings.largePadding / 2),
           PlantCareSchedule(plant: plant),
         ],
       ),

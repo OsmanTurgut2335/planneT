@@ -1,3 +1,5 @@
+import 'package:allplant/core/constants/paddings.dart';
+import 'package:allplant/core/constants/strings.dart';
 import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/widgets/card/plant_card.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +13,19 @@ class PlantGuideSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Bitkilerim", style: Theme.of(context).textTheme.headlineMedium),
+        Text(AppStrings.myPlants, style: Theme.of(context).textTheme.headlineMedium),
 
-        const SizedBox(height: 12),
-       
+        const SizedBox(height: Paddings.largePadding),
+
         ValueListenableBuilder(
           valueListenable: Hive.box<Plant>('plants').listenable(),
           builder: (context, Box<Plant> box, _) {
             final plants = box.values.toList().cast<Plant>();
             if (plants.isEmpty) {
-              return const Center(child: Text("Henüz bitki eklemediniz"));
+              return const Center(child: Text(AppStrings.noPlants));
             }
             return SizedBox(
-              height: 160, // height for the horizontal list of cards
+              height: CardHeight.plantCardListHeight,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: plants.length,
@@ -38,4 +40,8 @@ class PlantGuideSection extends StatelessWidget {
       ],
     );
   }
+}
+
+class CardHeight {
+  static const double plantCardListHeight = 160.0;
 }
