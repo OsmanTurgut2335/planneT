@@ -16,4 +16,7 @@ class AppStrings {
   static const String selectFromGallery = "Galeriden Seç";
 
   static const String noPlants = "Henüz bitki eklemediniz";
+    static const String error = "Bir hata oluştu";
+     static const String cancel = "İptal Et";
+      static const String delete = "Sil";
 }

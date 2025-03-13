@@ -1,3 +1,6 @@
+// CalendarScreen: The main screen that displays the watering calendar.
+// It creates a CalendarCubit and passes its state to CalendarStateHandler.
+
 import 'package:allplant/core/cubit/calendar/calendar_cubit.dart';
 import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 
@@ -20,7 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return BlocProvider(
       create: (context) => CalendarCubit(calendarRepository: CalendarRepository()),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Sulama Takvimi")),
+        appBar: AppBar(title: const Text(CalendarStrings.wateringSchedule)),
         body: BlocBuilder<CalendarCubit, CalendarState>(
           builder: (context, state) {
             return CalendarStateHandler(state: state);
@@ -29,4 +32,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
+}
+
+class CalendarStrings {
+  const CalendarStrings._();
+  static const wateringSchedule = "Sulama Takvimi";
 }

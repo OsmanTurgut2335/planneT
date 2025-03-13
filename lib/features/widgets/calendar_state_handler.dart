@@ -1,13 +1,11 @@
-
 import 'package:allplant/core/constants/app_colors.dart';
+import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
-
 class CalendarStateHandler extends StatefulWidget {
-  final CalendarState state; 
+  final CalendarState state;
 
   const CalendarStateHandler({super.key, required this.state});
 
@@ -37,7 +35,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
         child: Text((widget.state as PlantsCalenderError).message, style: const TextStyle(color: Colors.red)),
       );
     } else if (widget.state is PlantsCalenderEmpty) {
-      return const Center(child: Text("Bu tarihte yapılacak bir şey yok!"));
+      return const Center(child: Text(CalendarConstants.nothingToDo));
     } else if (widget.state is PlantsCalenderLoaded) {
       final wateringSchedule = (widget.state as PlantsCalenderLoaded).wateringSchedule;
       return _buildCalendar(wateringSchedule);
@@ -51,45 +49,37 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
         ValueListenableBuilder<DateTime>(
           valueListenable: _focusedDay,
           builder: (context, focusedDay, _) {
-            return TableCalendar(
-              focusedDay: focusedDay,
-              firstDay: DateTime.now(),
-              lastDay: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
-              calendarFormat: CalendarFormat.month,
-
-              selectedDayPredicate: (day) => isSameDay(_selectedDay.value, day),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              onDaySelected: (selectedDay, newFocusedDay) {
-                setState(() {
-                  _selectedDay.value = selectedDay;
-                  _focusedDay.value = newFocusedDay;
-                  _selectedEvents.value = _getEventsForDay(selectedDay, wateringSchedule);
-                });
-              },
-              eventLoader: (day) => _getEventsForDay(day, wateringSchedule),
-              calendarStyle: const CalendarStyle(
-                markersMaxCount: 1,
-                todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-                selectedDecoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
-                markerDecoration: BoxDecoration(color: AppColors.deepPine, shape: BoxShape.rectangle),
-              ),
-            );
+            return calendarView(focusedDay, wateringSchedule);
           },
         ),
 
-        ValueListenableBuilder<List<String>>(
-          valueListenable: _selectedEvents,
-          builder: (context, selectedEvents, _) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
-                  selectedEvents.isNotEmpty
-                      ? WateringPlantsColumn(events: selectedEvents)
-                      : const Padding(padding: EdgeInsets.all(8.0), child: Text("Bu tarihte sulama yok.")),
-            );
-          },
-        ),
+        TodaysEvents(selectedEvents: _selectedEvents),
       ],
+    );
+  }
+
+  TableCalendar<String> calendarView(DateTime focusedDay, Map<DateTime, List<String>> wateringSchedule) {
+    return TableCalendar(
+      focusedDay: focusedDay,
+      firstDay: DateTime.now(),
+      lastDay: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
+      calendarFormat: CalendarFormat.month,
+      selectedDayPredicate: (day) => isSameDay(_selectedDay.value, day),
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      onDaySelected: (selectedDay, newFocusedDay) {
+        setState(() {
+          _selectedDay.value = selectedDay;
+          _focusedDay.value = newFocusedDay;
+          _selectedEvents.value = _getEventsForDay(selectedDay, wateringSchedule);
+        });
+      },
+      eventLoader: (day) => _getEventsForDay(day, wateringSchedule),
+      calendarStyle: const CalendarStyle(
+        markersMaxCount: CalendarConstants.markersMaxCount,
+        todayDecoration: CalendarConstants.todayDecoration,
+        selectedDecoration: CalendarConstants.selectedDecoration,
+        markerDecoration: CalendarConstants.markerDecoration,
+      ),
     );
   }
 
@@ -97,6 +87,32 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
     DateTime normalizedDay = DateTime(day.year, day.month, day.day);
 
     return wateringSchedule[normalizedDay] ?? [];
+  }
+}
+
+class TodaysEvents extends StatelessWidget {
+  const TodaysEvents({super.key, required ValueNotifier<List<String>> selectedEvents})
+    : _selectedEvents = selectedEvents;
+
+  final ValueNotifier<List<String>> _selectedEvents;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<List<String>>(
+      valueListenable: _selectedEvents,
+      builder: (context, selectedEvents, _) {
+        return Padding(
+          padding: const EdgeInsets.all(Paddings.defaultPadding),
+          child:
+              selectedEvents.isNotEmpty
+                  ? WateringPlantsColumn(events: selectedEvents)
+                  : const Padding(
+                    padding: EdgeInsets.all(Paddings.defaultPadding),
+                    child: Text(CalendarConstants.noWatering),
+                  ),
+        );
+      },
+    );
   }
 }
 
@@ -110,17 +126,36 @@ class WateringPlantsColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("Bu tarihte sulanması gereken bitkiler:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          padding: EdgeInsets.all(Paddings.defaultPadding),
+          child: Text(CalendarConstants.plantsToWater, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
-        // 🔥 Replace Wrap with a Column of Cards
+
         ...events.map(
           (plantName) => Card(
-            margin: const EdgeInsets.symmetric(vertical: 4.0),
+            margin: const EdgeInsets.symmetric(vertical: Paddings.defaultPadding / 2),
             child: ListTile(leading: const Icon(Icons.local_florist, color: Colors.green), title: Text(plantName)),
           ),
         ),
       ],
     );
   }
+}
+
+class CalendarConstants {
+  const CalendarConstants._();
+  static const noWatering = "Bu tarihte sulama yok.";
+  static const plantsToWater = "Bu tarihte sulanması gereken bitkiler:";
+  static const nothingToDo = "Bu tarihte yapılacak bir şey yok!";
+
+
+  static const int markersMaxCount = 1;
+
+
+  static const BoxDecoration todayDecoration = BoxDecoration(color: Colors.blue, shape: BoxShape.circle);
+
+
+  static const BoxDecoration selectedDecoration = BoxDecoration(color: Colors.green, shape: BoxShape.circle);
+
+
+  static const BoxDecoration markerDecoration = BoxDecoration(color: AppColors.deepPine, shape: BoxShape.rectangle);
 }

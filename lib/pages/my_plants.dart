@@ -1,14 +1,14 @@
-import 'dart:io';
-
+import 'package:allplant/core/constants/paddings.dart';
+import 'package:allplant/core/constants/strings.dart';
 import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 import 'package:allplant/core/widgets/button/add_plant_button.dart';
 import 'package:allplant/core/cubit/myplants/my_plant_cubit.dart';
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
-import 'package:allplant/features/models/plant.dart';
+
+import 'package:allplant/features/widgets/card/my_plants_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class MyPlantsScreen extends StatelessWidget {
   const MyPlantsScreen({super.key});
@@ -18,21 +18,18 @@ class MyPlantsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PlantListCubit(repository: MyPlantsRepository()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Bitkilerim"),
-          //  actions: [IconButton(icon: const Icon(Icons.menu), onPressed: () {})],
-        ),
+        appBar: AppBar(title: const Text(AppStrings.myPlants)),
 
         body: BlocBuilder<PlantListCubit, PlantListState>(
           builder: (context, state) {
             if (state is PlantListLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PlantListEmpty) {
-              return const Center(child: Text("Henüz bitki eklemediniz."));
+              return const Center(child: Text(AppStrings.noPlants));
             } else if (state is PlantListLoaded) {
-              return Padding(padding: const EdgeInsets.all(16.0), child: plantGridView(state));
+              return Padding(padding: const EdgeInsets.all(Paddings.largePadding), child: plantGridView(state));
             } else {
-              return const Center(child: Text("Bir hata oluştu."));
+              return const Center(child: Text(AppStrings.error));
             }
           },
         ),
@@ -47,67 +44,21 @@ class MyPlantsScreen extends StatelessWidget {
       itemCount: state.plants.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-        childAspectRatio: 0.7,
+        crossAxisSpacing: Paddings.gridSpacing,
+        mainAxisSpacing: Paddings.gridSpacing,
+        childAspectRatio: MyPlantsConstants.gridAspectRatio,
       ),
       itemBuilder: (context, index) {
         final plant = state.plants[index];
-        return _buildPlantCard(context, plant, index);
+        return MyPlantsCard(plant: plant, index: index);
       },
     );
   }
+}
 
-  Widget _buildPlantCard(BuildContext context, Plant plant, int index) {
-    return GestureDetector(
-      onTap: () {
-        context.goNamed('plantDetail', pathParameters: {'id': plant.name.toString()}, extra: plant);
-      },
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
-        child: Column(
-          children: [
-            SizedBox(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.file(File(plant.imageUrl), fit: BoxFit.cover),
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey.shade400, // Çizginin rengi
-              thickness: 2.0, // Çizginin kalınlığı
-              indent: 10,
-              endIndent: 10,
-            ),
+class MyPlantsConstants {
+  const MyPlantsConstants._();
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text(
-                        plant.name,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Color(0xFF579133)),
-                    onPressed: () {
-                      context.read<PlantListCubit>().deletePlant(index);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  static const double indent = 10;
+  static const double gridAspectRatio = 0.7;
 }

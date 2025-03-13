@@ -1,7 +1,7 @@
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/constants/strings.dart';
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/widgets/card/plant_card.dart';
+import 'package:allplant/features/widgets/card/home_plant_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

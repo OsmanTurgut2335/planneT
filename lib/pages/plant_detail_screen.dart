@@ -5,7 +5,7 @@ import 'package:allplant/core/provider/provider_factory.dart';
 
 import 'package:allplant/core/widgets/column/plant_details.dart';
 import 'package:allplant/core/widgets/positioned/common_positioned.dart';
-import 'package:allplant/features/widgets/calendar/plant_care_schedule.dart';
+import 'package:allplant/features/widgets/calendar/plant_detail_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:allplant/core/constants/app_colors.dart';
 import 'package:allplant/features/models/plant.dart';

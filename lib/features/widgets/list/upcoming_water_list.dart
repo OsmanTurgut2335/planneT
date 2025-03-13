@@ -25,7 +25,6 @@ class UpcomingWateringsList extends StatelessWidget {
             final events = state.plants;
 
             return SizedBox(
-              height: _Constants.cardHeight,
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: events.length,
@@ -87,6 +86,6 @@ class ErrorMessage extends StatelessWidget {
 
 class _Constants {
   const _Constants._();
-  static const double cardHeight = 300;
-  static const double iconSize = 300;
+  // static const double cardHeight = 300;
+  static const double iconSize = 30;
 }
