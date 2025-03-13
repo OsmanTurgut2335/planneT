@@ -8,11 +8,7 @@ class ImagePickerWidget extends StatelessWidget {
   final String? imagePath;
   final VoidCallback onPickImage;
 
-  const ImagePickerWidget({
-    super.key,
-    required this.imagePath,
-    required this.onPickImage,
-  });
+  const ImagePickerWidget({super.key, required this.imagePath, required this.onPickImage});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +16,12 @@ class ImagePickerWidget extends StatelessWidget {
       child: Column(
         children: [
           if (imagePath != null)
-            Image.file(File(imagePath!), width: 200, height: 200)
+            Image.file(File(imagePath!), width: 150, height: 150)
           else
             Container(
               width: 200,
               height: 200,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
               child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
             ),
           TextButton.icon(

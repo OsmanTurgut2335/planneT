@@ -1,3 +1,11 @@
+import 'package:allplant/core/constants/paddings.dart';
+import 'package:allplant/core/constants/strings.dart';
+
+import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
+
+import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
+
 import 'package:allplant/features/widgets/calendar/add_plant_calendar.dart';
 import 'package:allplant/features/widgets/image/add_plant_image_picker.dart';
 import 'package:allplant/features/widgets/plant_type_dropdown.dart';
@@ -5,11 +13,6 @@ import 'package:allplant/features/widgets/text/add_plant_text_field.dart';
 import 'package:allplant/features/widgets/watering_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:allplant/core/constants/strings.dart';
-import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
-import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
-import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,7 +34,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
           onPressed: () {
             context.go('/');
           },
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
         ),
         title: const Text(AppStrings.appBarTitle),
       ),
@@ -41,10 +44,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
           listener: (context, state) {
             if (state.isSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.successMessage)));
-              // 🔥 Reset the form
               _formKey.currentState?.reset();
-
-              // 🔥 Reset the cubit state
               context.read<AddPlantCubit>().resetState();
             } else if (state.error != null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
@@ -52,7 +52,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
           },
           builder: (context, state) {
             return Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(Paddings.defaultPadding),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -63,42 +63,36 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                       validator: (value) => context.read<AddPlantCubit>().validatePlantName(value),
                       onSaved: (value) => context.read<AddPlantCubit>().setPlantName(value!),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     CustomTextField(
                       label: AppStrings.nicknameLabel,
                       onSaved: (value) => context.read<AddPlantCubit>().setPlantNickname(value),
                     ),
-                    const SizedBox(height: 10),
-
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     PlantTypeDropdown(
                       onSelected: (selectedType) {
                         context.read<AddPlantCubit>().setPlantType(selectedType);
                       },
                     ),
-                    const SizedBox(height: 15),
-
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     Text(
                       "${AppStrings.wateringFrequencyLabel} ${state.wateringFrequency} gün",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const WateringSlider(),
-                    const SizedBox(height: 10),
-
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     DatePickerWidget(
                       selectedDate: state.lastWateredDate,
                       onDateSelected: (date) {
                         context.read<AddPlantCubit>().selectDate(date);
                       },
                     ),
-                    const SizedBox(height: 10),
-
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     ImagePickerWidget(imagePath: state.imagePath, onPickImage: () => _onPickImage(context)),
-
-                    const SizedBox(height: 15),
-
+                    const SizedBox(height: AddPlantConstants.smallSpacing),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: Paddings.largePadding),
                       child: Center(
                         child: FloatingActionButton.extended(
                           onPressed: () => context.read<AddPlantCubit>().validateAndSaveForm(_formKey),
@@ -124,7 +118,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: const Text("Fotoğraf Çek"),
+              title: const Text(AddPlantConstants.cameraText),
               onTap: () {
                 Navigator.pop(context);
                 context.read<AddPlantCubit>().pickImage(ImageSource.camera);
@@ -132,7 +126,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text("Galeriden Seç"),
+              title: const Text(AddPlantConstants.galleryText),
               onTap: () {
                 Navigator.pop(context);
                 context.read<AddPlantCubit>().pickImage(ImageSource.gallery);
@@ -143,4 +137,19 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
       },
     );
   }
+}
+
+class AddPlantConstants {
+  const AddPlantConstants._();
+
+  static const double smallSpacing = 10.0;
+  static const double mediumSpacing = 12.0;
+
+  static const String cameraText = "Fotoğraf Çek";
+  static const String galleryText = "Galeriden Seç";
+
+  static const String deleteTitle = "Sil";
+  static const String deleteContent = "Bitkiyi silmek istediğinize emin misiniz?";
+  static const String cancelText = "İptal";
+  static const String confirmDeleteText = "Sil";
 }
