@@ -17,11 +17,7 @@ class ImagePickerWidget extends StatelessWidget {
         children: [
           if (imagePath != null)
             // Display the selected image using the centralized size.
-            Image.file(
-              File(imagePath!),
-              width: ImagePickerConstants.imageSize,
-              height: ImagePickerConstants.imageSize,
-            )
+            Image.file(File(imagePath!), width: ImagePickerConstants.imageSize, height: ImagePickerConstants.imageSize)
           else
             // Placeholder container with the same dimensions.
             Container(
@@ -31,21 +27,12 @@ class ImagePickerWidget extends StatelessWidget {
                 color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(ImagePickerConstants.borderRadius),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.image,
-                  size: ImagePickerConstants.iconSize,
-                  color: Colors.grey,
-                ),
-              ),
+              child: const Center(child: Icon(Icons.image, size: ImagePickerConstants.iconSize, color: Colors.grey)),
             ),
           TextButton.icon(
             onPressed: onPickImage,
             icon: const Icon(Icons.image, color: AppColors.deepPine),
-            label: Text(
-              AppStrings.selectImage,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            label: Text(AppStrings.selectImage, style: Theme.of(context).textTheme.bodyLarge),
           ),
         ],
       ),
@@ -53,11 +40,10 @@ class ImagePickerWidget extends StatelessWidget {
   }
 }
 
-
 /// Centralized constants for the ImagePickerWidget.
 class ImagePickerConstants {
   const ImagePickerConstants._();
-  static const double imageSize = 150.0;
+  static const double imageSize = 200.0;
   static const double iconSize = 50.0;
   static const double borderRadius = 10.0;
 }

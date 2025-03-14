@@ -2,10 +2,10 @@ import 'package:allplant/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:allplant/pages/add_plant.dart';
-import 'package:allplant/pages/calendar_screen.dart';
-import 'package:allplant/pages/home_screen.dart';
-import 'package:allplant/pages/my_plants.dart';
+import 'package:allplant/features/pages/add_plant.dart';
+import 'package:allplant/features/pages/calendar_screen.dart';
+import 'package:allplant/features/pages/home_screen.dart';
+import 'package:allplant/features/pages/my_plants.dart';
 
 void main() {
   group('Router Navigation Tests', () {
