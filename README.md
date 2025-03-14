@@ -47,7 +47,7 @@ A Flutter application designed to help users track and care for their plants. Th
 |---------------------------|--------------------------|------------------------|--------------------------|--------------------------|
 | ![Home Screen](./screenshots/home_screen.png) | ![Add Plant](./screenshots/add_plant.png) | ![Calendar](./screenshots/calendar_view.png) | ![Plant Detail](./screenshots/plant_details.png) | ![My Plants](./screenshots/my_plants.png) |
 
-> Replace the image paths with the correct relative paths to your screenshots.
+
 
 ---
 
@@ -62,6 +62,8 @@ A Flutter application designed to help users track and care for their plants. Th
 
 ---
 ## Folder Structure
+
+```bash
 lib
  ┣ core
  ┃ ┣ constants       // App-wide constants (colors, paddings, strings, etc.)
