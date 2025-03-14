@@ -63,7 +63,7 @@ A Flutter application designed to help users track and care for their plants. Th
 ---
 ## Folder Structure
 
-```bash
+```
 lib
  ┣ core
  ┃ ┣ constants       // App-wide constants (colors, paddings, strings, etc.)
@@ -79,5 +79,6 @@ lib
    ┗ pages           // Screens for each feature (e.g., AddPlantScreen, CalendarScreen, MyPlantsScreen)
 
 ---
+```
 ## Contributing
 ## Any contributions,suggestions are fully welcome!!
