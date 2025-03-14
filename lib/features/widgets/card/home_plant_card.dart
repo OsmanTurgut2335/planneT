@@ -5,6 +5,9 @@ import 'package:allplant/features/models/plant.dart';
 
 import 'package:flutter/material.dart';
 
+//view to show the plants on main screen
+
+
 class PlantCard extends StatefulWidget {
  final Plant plant;
 

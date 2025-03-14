@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+//widget to display each of the plants in my plants screen
+
 class MyPlantsCard extends StatelessWidget {
   final Plant plant;
   final int index;

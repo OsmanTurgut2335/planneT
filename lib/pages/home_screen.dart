@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-/// Home ekranı için string sabitleri
+
 class _HomeViewStrings {
   const _HomeViewStrings._();
 

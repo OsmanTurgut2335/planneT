@@ -10,6 +10,8 @@ import 'package:allplant/core/provider/provider_factory.dart';
 class UpcomingWateringsList extends StatelessWidget {
   const UpcomingWateringsList({super.key});
 
+//this widget displays upcoming waterings on main screen
+
   @override
   Widget build(BuildContext context) {
     return buildWateringProvider(

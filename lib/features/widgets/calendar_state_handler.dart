@@ -4,6 +4,9 @@ import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+// A widget that builds the calendar UI based on the current CalendarState.
+// It handles different states like loading, error, empty, and loaded.
+
 class CalendarStateHandler extends StatefulWidget {
   final CalendarState state;
 

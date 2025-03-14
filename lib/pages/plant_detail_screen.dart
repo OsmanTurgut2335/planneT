@@ -76,6 +76,8 @@ class _PlantHeaderImage extends StatelessWidget {
   }
 }
 
+//Section to show upcoming waterings for the next 3 days
+
 class PlantNextWateringsWidget extends StatelessWidget {
   final Plant plant;
 

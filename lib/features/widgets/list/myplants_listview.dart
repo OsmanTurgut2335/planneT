@@ -5,6 +5,7 @@ import 'package:allplant/features/widgets/card/home_plant_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+// list view of the home_plant_card for a horizontal list 
 class PlantGuideSection extends StatelessWidget {
   const PlantGuideSection({super.key});
 

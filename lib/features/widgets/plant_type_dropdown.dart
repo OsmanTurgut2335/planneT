@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//dropdown widget for selecting the plant type on add plant section
+
 class PlantTypeDropdown extends StatefulWidget {
   final Function(String) onSelected;
 

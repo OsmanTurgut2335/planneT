@@ -1,4 +1,5 @@
 
+import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/cubit/watering/watering_cubit.dart';
 import 'package:allplant/core/cubit/watering/watering_state.dart';
 import 'package:allplant/features/models/upcoming_event.dart';
@@ -84,7 +85,7 @@ class _DayWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: Paddings.defaultPadding , vertical: Paddings.defaultPadding/2),
             decoration: BoxDecoration(
               color: wateringScheduled ? Colors.green : Colors.grey,
               borderRadius: BorderRadius.circular(8),

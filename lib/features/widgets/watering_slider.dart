@@ -4,6 +4,9 @@ import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
+//slider for adjusting the plants watering schedule in add plant screen
+
 class WateringSlider extends StatelessWidget {
   const WateringSlider({super.key});
 

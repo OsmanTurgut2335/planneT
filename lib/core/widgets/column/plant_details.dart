@@ -4,6 +4,8 @@ import 'package:allplant/features/models/plant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//section of the plant details that shows view of the plant name-ect.
+
 class PlantDetailColumn extends StatelessWidget {
   final Plant plant;
 

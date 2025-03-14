@@ -1,4 +1,4 @@
-// CalendarScreen: The main screen that displays the watering calendar.
+//  The main screen that displays the watering calendar.
 // It creates a CalendarCubit and passes its state to CalendarStateHandler.
 
 import 'package:allplant/core/cubit/calendar/calendar_cubit.dart';

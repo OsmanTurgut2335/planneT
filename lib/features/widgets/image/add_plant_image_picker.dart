@@ -16,21 +16,48 @@ class ImagePickerWidget extends StatelessWidget {
       child: Column(
         children: [
           if (imagePath != null)
-            Image.file(File(imagePath!), width: 150, height: 150)
+            // Display the selected image using the centralized size.
+            Image.file(
+              File(imagePath!),
+              width: ImagePickerConstants.imageSize,
+              height: ImagePickerConstants.imageSize,
+            )
           else
+            // Placeholder container with the same dimensions.
             Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
-              child: const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
+              width: ImagePickerConstants.imageSize,
+              height: ImagePickerConstants.imageSize,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(ImagePickerConstants.borderRadius),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.image,
+                  size: ImagePickerConstants.iconSize,
+                  color: Colors.grey,
+                ),
+              ),
             ),
           TextButton.icon(
             onPressed: onPickImage,
             icon: const Icon(Icons.image, color: AppColors.deepPine),
-            label: Text(AppStrings.selectImage, style: Theme.of(context).textTheme.bodyLarge),
+            label: Text(
+              AppStrings.selectImage,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+
+/// Centralized constants for the ImagePickerWidget.
+class ImagePickerConstants {
+  const ImagePickerConstants._();
+  static const double imageSize = 150.0;
+  static const double iconSize = 50.0;
+  static const double borderRadius = 10.0;
 }
