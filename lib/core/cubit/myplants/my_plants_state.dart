@@ -5,15 +5,15 @@ abstract class PlantListState {}
 class PlantListLoading extends PlantListState {}
 
 class PlantListLoaded extends PlantListState {
-  final List<Plant> plants;
   PlantListLoaded(this.plants);
+  final List<Plant> plants;
 }
 
 class PlantListEmpty extends PlantListState {}
 
 class PlantListError extends PlantListState {
-  final String message;
   PlantListError(this.message);
+  final String message;
 }
 
 

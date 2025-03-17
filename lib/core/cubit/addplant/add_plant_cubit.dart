@@ -1,19 +1,19 @@
-import 'package:allplant/features/models/plant.dart';
+import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
 import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
+import 'package:allplant/features/models/plant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'add_plant_state.dart';
 
 class AddPlantCubit extends Cubit<AddPlantState> {
+  AddPlantCubit(this.plantRepository) : super(AddPlantState());
   final AddPlantRepository plantRepository;
   final ImagePicker _picker = ImagePicker();
-
-  AddPlantCubit(this.plantRepository) : super(AddPlantState());
+  bool _isProcessing = false;
 
   String? validatePlantName(String? value) {
     if (value == null || value.isEmpty) {
-      return "Lütfen bitki adını girin!";
+      return 'Lütfen bitki adını girin!';
     }
     return null;
   }
@@ -25,7 +25,7 @@ class AddPlantCubit extends Cubit<AddPlantState> {
         emit(state.copyWith(imagePath: pickedFile.path));
       }
     } catch (e) {
-      emit(state.copyWith(error: "Resim seçilirken hata oluştu"));
+      emit(state.copyWith(error: 'Resim seçilirken hata oluştu'));
     }
   }
 
@@ -49,13 +49,17 @@ class AddPlantCubit extends Cubit<AddPlantState> {
     emit(state.copyWith(plantType: plantType));
   }
 
+  void setPlantType(String type) {
+    emit(state.copyWith(plantType: type));
+  }
+
   Future<void> savePlant() async {
     if (state.plantName.isEmpty) {
-      emit(state.copyWith(error: "Lütfen bitki adını girin!"));
+      emit(state.copyWith(error: 'Lütfen bitki adını girin!'));
       return;
     }
     if (state.imagePath == null) {
-      emit(state.copyWith(error: "Lütfen bir resim seçin!"));
+      emit(state.copyWith(error: 'Lütfen bir resim seçin!'));
       return;
     }
 
@@ -71,34 +75,28 @@ class AddPlantCubit extends Cubit<AddPlantState> {
       );
       await plantRepository.addPlant(newPlant);
       emit(state.copyWith(isLoading: false, isSuccess: true));
+    
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
 
-  void validateAndSaveForm(GlobalKey<FormState> formKey) {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-      savePlant();
+
+  Future<void> validateAndSaveForm(GlobalKey<FormState> formKey) async {
+    if (_isProcessing) return;
+    _isProcessing = true;
+
+    try {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+        await savePlant();
+      }
+    } finally {
+      _isProcessing = false;
     }
   }
 
   void resetState() {
-    emit(
-      AddPlantState(
-        plantName: '',
-        plantNickname: '',
-        imagePath: null,
-        lastWateredDate: DateTime.now(),
-        wateringFrequency: 7,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
-      ),
-    );
-  }
-
-  void setPlantType(String type) {
-    emit(state.copyWith(plantType: type));
+    emit(AddPlantState(plantNickname: '', lastWateredDate: DateTime.now()));
   }
 }

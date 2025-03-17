@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 
 
 class PlantCard extends StatefulWidget {
- final Plant plant;
 
-  const PlantCard({super.key, required this.plant});
+  const PlantCard({required this.plant, super.key});
+ final Plant plant;
 
   @override
   State<PlantCard> createState() => _PlantCardState();
@@ -30,7 +30,7 @@ class _PlantCardState extends State<PlantCard> {
     final file = File(imageUrl);
     final exists = await file.exists();
     if (exists) {
-      precacheImage(FileImage(file), context);
+      await precacheImage(FileImage(file), context);
     }
     return exists;
   }
@@ -56,23 +56,23 @@ class _PlantCardState extends State<PlantCard> {
 }
 
 class PlantCardContent extends StatelessWidget {
+
+  const PlantCardContent({required this.plant, required this.displayName, super.key});
   final Plant plant;
   final String? displayName;
-
-  const PlantCardContent({super.key, required this.plant, required this.displayName});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: Constants.imageSize / 2,
-      margin: EdgeInsets.only(right: Constants.cardBorderRadius),
+      margin: const EdgeInsets.only(right: Constants.cardBorderRadius),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(Constants.cardBorderRadius), color: AppColors.plantCardBackground),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.cardBorderRadius)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.cardBorderRadius)),
               child: Image.file(
                 File(plant.imageUrl),
                 width: Constants.imageSize,
@@ -85,9 +85,9 @@ class PlantCardContent extends StatelessWidget {
             padding: const EdgeInsets.all(Paddings.defaultPadding),
             decoration: BoxDecoration(
               color: Colors.green.shade900,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(Constants.cardBorderRadius)),
+              borderRadius:const BorderRadius.vertical(bottom: Radius.circular(Constants.cardBorderRadius)),
             ),
-            child: Text(displayName ?? "", textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodySmall),
+            child: Text(displayName ?? '', textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
@@ -107,7 +107,7 @@ class NoImageContainer extends StatelessWidget {
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
       ),
-      child: Center(child: Icon(Icons.image, size: (Constants.imageSize / 5), color: Colors.grey)),
+      child: const Center(child: Icon(Icons.image, size: Constants.imageSize / 5, color: Colors.grey)),
     );
   }
 }
@@ -128,6 +128,6 @@ class LoadingContainer extends StatelessWidget {
 
 class Constants {
   static const  imageSize = 250.0;
-  static const   double cardBorderRadius = 12.0;
-  static const  double containerMargin = 12.0;
+  static const   double cardBorderRadius = 12;
+  static const  double containerMargin = 12;
 }

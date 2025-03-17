@@ -1,18 +1,17 @@
 import 'package:allplant/core/cubit/watering/watering_state.dart';
 import 'package:allplant/core/repository/watering/water_repository.dart';
-import 'package:bloc/bloc.dart';
-
 import 'package:allplant/features/models/plant.dart';
+import 'package:bloc/bloc.dart';
 
 
 class TodaysWateringsCubit extends Cubit<WateringState> {
-  final WateringRepository repository;
 
   TodaysWateringsCubit({required this.repository}) : super(TodaysWateringsLoading()) {
     loadUpcomingWaterings();
   }
+  final WateringRepository repository;
 
-  void loadUpcomingWaterings() async {
+  Future<void> loadUpcomingWaterings() async {
     emit(TodaysWateringsLoading());
     try {
       final upcomingEvents = await repository.getUpcomingWaterings();
@@ -22,16 +21,16 @@ class TodaysWateringsCubit extends Cubit<WateringState> {
         emit(TodaysWateringsLoaded(upcomingEvents));
       }
     } catch (e) {
-      emit(TodaysWateringsError("Error loading upcoming waterings: $e"));
+      emit(TodaysWateringsError('Error loading upcoming waterings: $e'));
     }
   }
 
   Future<void> toggleWatered(Plant plant) async {
     try {
       await repository.toggleWatered(plant);
-      loadUpcomingWaterings();
+      await loadUpcomingWaterings();
     } catch (e) {
-      emit(TodaysWateringsError("Error updating watering status: $e"));
+      emit(TodaysWateringsError('Error updating watering status: $e'));
     }
   }
 }

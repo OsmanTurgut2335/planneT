@@ -13,15 +13,15 @@ import 'package:go_router/go_router.dart';
 //widget to display each of the plants in my plants screen
 
 class MyPlantsCard extends StatelessWidget {
+  const MyPlantsCard({required this.plant, required this.index, super.key});
   final Plant plant;
   final int index;
-  const MyPlantsCard({super.key, required this.plant, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.goNamed('plantDetail', pathParameters: {'id': plant.name.toString()}, extra: plant);
+        context.goNamed('plantDetail', pathParameters: {'id': plant.name}, extra: plant);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -39,7 +39,7 @@ class MyPlantsCard extends StatelessWidget {
             ),
             Divider(
               color: Colors.grey.shade400,
-              thickness: 2.0,
+              thickness: 2,
               indent: MyPlantsConstants.indent,
               endIndent: MyPlantsConstants.indent,
             ),
@@ -88,5 +88,5 @@ class MyPlantsCard extends StatelessWidget {
 
 class MyPlantsString {
   MyPlantsString._();
-  static const approveText = "Bitkiyi silmek istediğinize emin misiniz?";
+  static const approveText = 'Bitkiyi silmek istediğinize emin misiniz?';
 }

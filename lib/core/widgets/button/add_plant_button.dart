@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AddPlantButton extends StatelessWidget {
-  final String route;  
-  final String label;
-  final IconData icon;
 
   const AddPlantButton({
     super.key,
@@ -12,6 +9,9 @@ class AddPlantButton extends StatelessWidget {
     this.label = 'Bitki Ekle',  
     this.icon = Icons.add,     
   });
+  final String route;  
+  final String label;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,10 @@
 import 'package:allplant/core/constants/app_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/cubit/watering/watering_cubit.dart';
 import 'package:allplant/core/cubit/watering/watering_state.dart';
 import 'package:allplant/core/provider/provider_factory.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpcomingWateringsList extends StatelessWidget {
   const UpcomingWateringsList({super.key});
@@ -22,7 +21,7 @@ class UpcomingWateringsList extends StatelessWidget {
           } else if (state is TodaysWateringsError) {
             return Center(child: ErrorMessage(wateringState: state));
           } else if (state is TodaysWateringsEmpty) {
-            return const Center(child: Text("No upcoming waterings!"));
+            return const Center(child: Text('No upcoming waterings!'));
           } else if (state is TodaysWateringsLoaded) {
             final events = state.plants;
 
@@ -59,11 +58,11 @@ class UpcomingWateringsList extends StatelessWidget {
   String _buildSubtitle(DateTime wateringDate) {
     final daysLeft = _daysUntil(wateringDate);
     if (daysLeft <= 0) {
-      return "Bugün sulanmalı";
+      return 'Bugün sulanmalı';
     } else if (daysLeft == 1) {
-      return "Yarın sulanmalı";
+      return 'Yarın sulanmalı';
     } else {
-      return "$daysLeft gün içinde sulanmalı";
+      return '$daysLeft gün içinde sulanmalı';
     }
   }
 
@@ -76,7 +75,7 @@ class UpcomingWateringsList extends StatelessWidget {
 }
 
 class ErrorMessage extends StatelessWidget {
-  const ErrorMessage({super.key, required this.wateringState});
+  const ErrorMessage({required this.wateringState, super.key});
 
   final TodaysWateringsError wateringState;
 

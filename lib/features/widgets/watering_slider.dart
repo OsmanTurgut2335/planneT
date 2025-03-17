@@ -21,7 +21,7 @@ class WateringSlider extends StatelessWidget {
             inactiveTrackColor: AppColors.deepPine.withValues(alpha: 0.2),
             thumbColor: AppColors.deepPine,
             overlayColor: AppColors.deepPine.withValues(alpha: 0.2),
-            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+            thumbShape: const RoundSliderThumbShape(),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
             valueIndicatorColor: const Color(0xFFD8DDD7),
             valueIndicatorTextStyle: const TextStyle(color: Colors.white),

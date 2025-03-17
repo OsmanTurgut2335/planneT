@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //dropdown widget for selecting the plant type on add plant section
 
 class PlantTypeDropdown extends StatefulWidget {
-  final Function(String) onSelected;
 
-  const PlantTypeDropdown({super.key, required this.onSelected});
+  const PlantTypeDropdown({required this.onSelected, super.key});
+  final Function(String) onSelected;
 
   @override
   State<PlantTypeDropdown> createState() => _PlantTypeDropdownState();
@@ -28,8 +28,8 @@ class _PlantTypeDropdownState extends State<PlantTypeDropdown> {
   }
 
   Future<void> _loadData() async {
-    final String jsonString = await rootBundle.loadString('assets/data/plant_types.json');
-    final Map<String, dynamic> data = json.decode(jsonString);
+    final  jsonString = await rootBundle.loadString('assets/data/plant_types.json');
+    final data = json.decode(jsonString) as Map<String, dynamic>;
 
     final dayanikli = (data['sukulentKaktus'] as List).cast<String>();
     final cicekli = (data['genisYaprakli'] as List).cast<String>();

@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CommonPositioned extends StatelessWidget {
-  final double? top;
-  final double left;
-  final double right;
-  final double? bottom;
-  final double? height;
-  final Widget child;
 
   const CommonPositioned({
     super.key,
@@ -17,6 +11,12 @@ class CommonPositioned extends StatelessWidget {
     this.height,
     required this.child,
   });
+  final double? top;
+  final double left;
+  final double right;
+  final double? bottom;
+  final double? height;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

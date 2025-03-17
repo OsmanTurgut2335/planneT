@@ -6,7 +6,7 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.light,
       primarySwatch: Colors.green,
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
         bodyMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         bodyLarge: TextStyle(color: Colors.black, fontFamily: 'ProtestRevolution'),
@@ -18,14 +18,14 @@ class AppTheme {
 
       splashColor: Colors.transparent, // Removes ripple effect
 
-      appBarTheme: AppBarTheme(color: Colors.transparent, centerTitle: true),
+      appBarTheme: const AppBarTheme(color: Colors.transparent, centerTitle: true),
 
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme:const FloatingActionButtonThemeData(
         backgroundColor: Color(0xFF569033),
         extendedTextStyle: TextStyle(color: Colors.black, fontFamily: 'ProtestRevolution'),
       ),
       scaffoldBackgroundColor: AppColors.alternateScaffoldBackground,
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme:const InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFF569033))),
         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFF2B3D36))),
         // Label style (the text for the label)
@@ -38,7 +38,7 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.green,
-      textTheme: TextTheme(
+      textTheme:const TextTheme(
         bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         // Diğer text stilleri...
       ),

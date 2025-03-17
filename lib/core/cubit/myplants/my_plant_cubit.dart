@@ -1,4 +1,3 @@
-import 'package:allplant/core/cubit/calendar/calendar_state.dart';
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 
@@ -7,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class PlantListCubit extends Cubit<PlantListState> {
-  final MyPlantsRepository repository;
 
   PlantListCubit({required this.repository}) : super(PlantListLoading()) {
     loadPlants();
   }
+  final MyPlantsRepository repository;
 
   void loadPlants() {
     final plants = repository.loadPlants();

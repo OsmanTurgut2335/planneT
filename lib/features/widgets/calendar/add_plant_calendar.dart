@@ -3,10 +3,10 @@ import 'package:allplant/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class DatePickerWidget extends StatelessWidget {
+
+  const DatePickerWidget({required this.selectedDate, required this.onDateSelected, super.key});
   final DateTime selectedDate;
   final Function(DateTime) onDateSelected;
-
-  const DatePickerWidget({super.key, required this.selectedDate, required this.onDateSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class DatePickerWidget extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.calendar_today, color: AppColors.deepPine),
           onPressed: () async {
-            DateTime? pickedDate = await showDatePicker(
+            final pickedDate = await showDatePicker(
               context: context,
               initialDate: selectedDate,
               firstDate: DateTime(2000),
@@ -38,10 +38,9 @@ class DatePickerWidget extends StatelessWidget {
                         foregroundColor: AppColors.deepPine, // Buttons color (OK / Cancel)
                       ),
                     ),
-                    colorScheme: ColorScheme.light(
+                    colorScheme: const ColorScheme.light(
                       primary: AppColors.deepPine, // Selected date circle
-                      onPrimary: Colors.white, // Selected text color
-                      onSurface: Colors.black, // Default text color
+                   
                     ),
                   ),
                   child: child!,

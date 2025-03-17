@@ -1,4 +1,3 @@
-// core/providers/watering_provider.dart
 
 import 'package:allplant/core/cubit/watering/watering_cubit.dart';
 import 'package:allplant/core/repository/watering/water_repository.dart';

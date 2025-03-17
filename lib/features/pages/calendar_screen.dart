@@ -36,5 +36,5 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
 class CalendarStrings {
   const CalendarStrings._();
-  static const wateringSchedule = "Sulama Takvimi";
+  static const wateringSchedule = 'Sulama Takvimi';
 }

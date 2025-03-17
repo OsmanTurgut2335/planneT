@@ -6,15 +6,15 @@ abstract class PlantState extends Equatable {
   List<Object?> get props => [];
 }
 
-class PlantInitial extends PlantState {} // İlk yüklenme hali
+class PlantInitial extends PlantState {} 
 
-class PlantLoading extends PlantState {} // Yükleme durumu
+class PlantLoading extends PlantState {} 
 
-class PlantAdded extends PlantState {} // Başarıyla eklendi
+class PlantAdded extends PlantState {} 
 
 class PlantError extends PlantState {
-  final String message;
   PlantError(this.message);
+  final String message;
 
   @override
   List<Object?> get props => [message];

@@ -1,15 +1,13 @@
 import 'dart:io';
+
+import 'package:allplant/core/constants/app_colors.dart';
 import 'package:allplant/core/constants/paddings.dart';
-
 import 'package:allplant/core/provider/provider_factory.dart';
-
 import 'package:allplant/core/widgets/column/plant_details.dart';
 import 'package:allplant/core/widgets/positioned/common_positioned.dart';
+import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/widgets/calendar/plant_detail_schedule.dart';
 import 'package:flutter/material.dart';
-import 'package:allplant/core/constants/app_colors.dart';
-import 'package:allplant/features/models/plant.dart';
-
 import 'package:go_router/go_router.dart';
 
 class PlantDetailScreen extends StatelessWidget {
@@ -79,9 +77,9 @@ class _PlantHeaderImage extends StatelessWidget {
 //Section to show upcoming waterings for the next 3 days
 
 class PlantNextWateringsWidget extends StatelessWidget {
-  final Plant plant;
 
-  const PlantNextWateringsWidget({super.key, required this.plant});
+  const PlantNextWateringsWidget({required this.plant, super.key});
+  final Plant plant;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +88,7 @@ class PlantNextWateringsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(Paddings.largePadding),
       child: Column(
         children: [
-          const Text("Gelecek 3 Gün Planı", style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Gelecek 3 Gün Planı', style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: Paddings.largePadding / 2),
           PlantCareSchedule(plant: plant),
         ],

@@ -8,9 +8,8 @@ import 'package:table_calendar/table_calendar.dart';
 // It handles different states like loading, error, empty, and loaded.
 
 class CalendarStateHandler extends StatefulWidget {
+  const CalendarStateHandler({required this.state, super.key});
   final CalendarState state;
-
-  const CalendarStateHandler({super.key, required this.state});
 
   @override
   State<CalendarStateHandler> createState() => _CalendarStateHandlerState();
@@ -56,7 +55,7 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
           },
         ),
 
-        TodaysEvents(selectedEvents: _selectedEvents),
+        Expanded(child: TodaysEvents(selectedEvents: _selectedEvents)),
       ],
     );
   }
@@ -66,7 +65,6 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
       focusedDay: focusedDay,
       firstDay: DateTime.now(),
       lastDay: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
-      calendarFormat: CalendarFormat.month,
       selectedDayPredicate: (day) => isSameDay(_selectedDay.value, day),
       startingDayOfWeek: StartingDayOfWeek.monday,
       onDaySelected: (selectedDay, newFocusedDay) {
@@ -87,14 +85,14 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
   }
 
   List<String> _getEventsForDay(DateTime day, Map<DateTime, List<String>> wateringSchedule) {
-    DateTime normalizedDay = DateTime(day.year, day.month, day.day);
+    final normalizedDay = DateTime(day.year, day.month, day.day);
 
     return wateringSchedule[normalizedDay] ?? [];
   }
 }
 
 class TodaysEvents extends StatelessWidget {
-  const TodaysEvents({super.key, required ValueNotifier<List<String>> selectedEvents})
+  const TodaysEvents({required ValueNotifier<List<String>> selectedEvents, super.key})
     : _selectedEvents = selectedEvents;
 
   final ValueNotifier<List<String>> _selectedEvents;
@@ -109,56 +107,51 @@ class TodaysEvents extends StatelessWidget {
           child:
               selectedEvents.isNotEmpty
                   ? WateringPlantsColumn(events: selectedEvents)
-                  : const Padding(
-                    padding: EdgeInsets.all(Paddings.defaultPadding),
-                    child: Text(CalendarConstants.noWatering),
-                  ),
+                  : const Text(CalendarConstants.noWatering),
         );
       },
     );
   }
 }
 
+// Column to show todays events
 class WateringPlantsColumn extends StatelessWidget {
-  const WateringPlantsColumn({super.key, required this.events});
+  const WateringPlantsColumn({required this.events, super.key});
   final List<String> events;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(Paddings.defaultPadding),
-          child: Text(CalendarConstants.plantsToWater, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        ),
-
-        ...events.map(
-          (plantName) => Card(
-            margin: const EdgeInsets.symmetric(vertical: Paddings.defaultPadding / 2),
-            child: ListTile(leading: const Icon(Icons.local_florist, color: Colors.green), title: Text(plantName)),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(Paddings.defaultPadding),
+            child: Text(CalendarConstants.plantsToWater, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           ),
-        ),
-      ],
+          ...events.map(
+            (plantName) => Card(
+              margin: const EdgeInsets.symmetric(vertical: Paddings.defaultPadding / 2),
+              child: ListTile(leading: const Icon(Icons.local_florist, color: Colors.green), title: Text(plantName)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class CalendarConstants {
   const CalendarConstants._();
-  static const noWatering = "Bu tarihte sulama yok.";
-  static const plantsToWater = "Bu tarihte sulanması gereken bitkiler:";
-  static const nothingToDo = "Bu tarihte yapılacak bir şey yok!";
-
+  static const noWatering = 'Bu tarihte sulama yok.';
+  static const plantsToWater = 'Bu tarihte sulanması gereken bitkiler:';
+  static const nothingToDo = 'Bu tarihte yapılacak bir şey yok!';
 
   static const int markersMaxCount = 1;
 
-
   static const BoxDecoration todayDecoration = BoxDecoration(color: Colors.blue, shape: BoxShape.circle);
 
-
   static const BoxDecoration selectedDecoration = BoxDecoration(color: Colors.green, shape: BoxShape.circle);
-
 
   static const BoxDecoration markerDecoration = BoxDecoration(color: AppColors.deepPine, shape: BoxShape.rectangle);
 }

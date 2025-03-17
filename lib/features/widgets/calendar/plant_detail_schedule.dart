@@ -2,17 +2,15 @@
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/cubit/watering/watering_cubit.dart';
 import 'package:allplant/core/cubit/watering/watering_state.dart';
+import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/models/upcoming_event.dart';
 import 'package:flutter/material.dart';
-
-import 'package:allplant/features/models/plant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class PlantCareSchedule extends StatelessWidget {
   const PlantCareSchedule({
-    super.key,
-    required this.plant,
+    required this.plant, super.key,
   });
 
   final Plant plant;
@@ -29,7 +27,7 @@ class PlantCareSchedule extends StatelessWidget {
         } else if (state is TodaysWateringsError) {
           return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
         } else if (state is TodaysWateringsEmpty) {
-          return const Center(child: Text("No upcoming waterings!"));
+          return const Center(child: Text('No upcoming waterings!'));
         } else if (state is TodaysWateringsLoaded) {
 
     
@@ -39,7 +37,7 @@ class PlantCareSchedule extends StatelessWidget {
           final DateTime normalizedToday = DateTime(now.year, now.month, now.day);
 
       
-          List<Widget> dayWidgets = dayWidgetBuilder(normalizedToday, plantEvents);
+         final dayWidgets = dayWidgetBuilder(normalizedToday, plantEvents);
 
           return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: dayWidgets);
         }
@@ -55,7 +53,7 @@ class PlantCareSchedule extends StatelessWidget {
     List<Widget> dayWidgets = [];
     for (int i = 0; i < 3; i++) {
       final day = normalizedToday.add(Duration(days: i));
-      final bool wateringScheduled = plantEvents.any((event) => isSameDay(event.wateringDate, day));
+      final wateringScheduled = plantEvents.any((event) => isSameDay(event.wateringDate, day));
       dayWidgets.add(
       _DayWidget(day: day, wateringScheduled: wateringScheduled)
       );
@@ -80,7 +78,7 @@ class _DayWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "${day.month}/${day.day}",
+            '${day.month}/${day.day}',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
@@ -91,7 +89,7 @@ class _DayWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              wateringScheduled ? "Sulama Var" : "Sulama Yok",
+              wateringScheduled ? 'Sulama Var' : 'Sulama Yok',
               style: const TextStyle(color: Colors.white, fontSize: 12),
             ),
           ),

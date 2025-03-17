@@ -7,10 +7,11 @@ class DidYouKnowSection extends StatelessWidget {
   const DidYouKnowSection({super.key});
 
   Future<String> fetchRandomFact() async {
-    final String jsonString = await rootBundle.loadString('assets/data/facts.json');
-    final List<dynamic> jsonData = json.decode(jsonString);
-    final List<String> facts = jsonData.cast<String>();
-    facts.shuffle(Random());
+    final  jsonString = await rootBundle.loadString('assets/data/facts.json');
+  final  jsonData = json.decode(jsonString) as List<dynamic>;
+
+    final facts = jsonData.cast<String>()
+    ..shuffle(Random());
     return facts.first;
   }
 
@@ -49,7 +50,7 @@ class DidYouKnowSection extends StatelessWidget {
 class DidYouKnowStrings {
   DidYouKnowStrings._(); // private constructor prevents instantiation
 
-  static const String title = "Bunu biliyor muydun ?";
-  static const String errorPrefix = "Hata oluştu:";
-  static const String noData = "Bilgi bulunamadı.";
+  static const String title = 'Bunu biliyor muydun ?' ;
+  static const String errorPrefix = 'Hata oluştu:' ;
+  static const String noData = 'Bilgi bulunamadı.';
 }

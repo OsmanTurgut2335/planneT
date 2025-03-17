@@ -5,10 +5,10 @@ import 'package:allplant/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class ImagePickerWidget extends StatelessWidget {
+
+  const ImagePickerWidget({required this.imagePath, required this.onPickImage, super.key});
   final String? imagePath;
   final VoidCallback onPickImage;
-
-  const ImagePickerWidget({super.key, required this.imagePath, required this.onPickImage});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ImagePickerWidget extends StatelessWidget {
 /// Centralized constants for the ImagePickerWidget.
 class ImagePickerConstants {
   const ImagePickerConstants._();
-  static const double imageSize = 200.0;
-  static const double iconSize = 50.0;
-  static const double borderRadius = 10.0;
+  static const double imageSize = 200;
+  static const double iconSize = 50;
+  static const double borderRadius = 10;
 }

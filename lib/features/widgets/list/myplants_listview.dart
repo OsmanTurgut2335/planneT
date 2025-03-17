@@ -44,5 +44,5 @@ class PlantGuideSection extends StatelessWidget {
 }
 
 class CardHeight {
-  static const double plantCardListHeight = 160.0;
+  static const double plantCardListHeight = 160;
 }

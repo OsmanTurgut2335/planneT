@@ -3,13 +3,13 @@ import 'package:allplant/core/repository/calendar/calendar_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-  final CalendarRepository calendarRepository;
 
   CalendarCubit({required this.calendarRepository}) : super(PlantsCalenderLoading()){
     loadWateringDates();
   }
+  final CalendarRepository calendarRepository;
 
-  void loadWateringDates() async {
+  Future<void> loadWateringDates() async {
     emit(PlantsCalenderLoading());
     try {
       final wateringSchedule = await calendarRepository.loadWateringDates();
@@ -19,7 +19,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         emit(PlantsCalenderLoaded(wateringSchedule));
       }
     } catch (e) {
-      emit(PlantsCalenderError("Sulama tarihleri yüklenirken hata oluştu"));
+      emit(PlantsCalenderError('Sulama tarihleri yüklenirken hata oluştu'));
     }
   }
 }

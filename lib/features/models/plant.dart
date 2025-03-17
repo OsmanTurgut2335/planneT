@@ -4,6 +4,16 @@ part 'plant.g.dart';
 
 @HiveType(typeId: 0)
 class Plant extends HiveObject {
+
+  Plant({
+    required this.name,
+    required this.imageUrl,
+    required this.lastWateredDate,
+    required this.wateringFrequencyInDays,
+    this.nickname,
+    this.isWateredToday = false,
+    this.plantType = 'Diğer',
+  });
   @HiveField(0)
   final String name;
 
@@ -25,16 +35,6 @@ class Plant extends HiveObject {
 
   @HiveField(6)
   final String plantType;
-
-  Plant({
-    required this.name,
-    required this.imageUrl,
-    required this.lastWateredDate,
-    required this.wateringFrequencyInDays,
-    this.nickname,
-    this.isWateredToday = false,
-    this.plantType = 'Diğer',
-  });
 
   int get daysUntilNextWatering {
     final nextWateringDate = lastWateredDate.add(Duration(days: wateringFrequencyInDays));

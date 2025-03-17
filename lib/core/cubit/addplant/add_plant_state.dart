@@ -1,15 +1,4 @@
 class AddPlantState {
-  final String plantName;
-  final String? plantNickname;
-  final String? imagePath;
-  final DateTime lastWateredDate;
-  final int wateringFrequency;
-  final bool isLoading;
-  final bool isSuccess;
-  final String? error;
-
-
-  final String plantType;
 
   AddPlantState({
     this.plantName = '',
@@ -22,6 +11,17 @@ class AddPlantState {
     this.error,
     this.plantType = 'Diğer', 
   }) : lastWateredDate = lastWateredDate ?? DateTime.now();
+  final String plantName;
+  final String? plantNickname;
+  final String? imagePath;
+  final DateTime lastWateredDate;
+  final int wateringFrequency;
+  final bool isLoading;
+   bool isSuccess;
+  final String? error;
+
+
+  final String plantType;
 
   AddPlantState copyWith({
     String? plantName,

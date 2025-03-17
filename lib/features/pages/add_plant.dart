@@ -9,6 +9,7 @@ import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
 import 'package:allplant/features/widgets/calendar/add_plant_calendar.dart';
 import 'package:allplant/features/widgets/image/add_plant_image_picker.dart';
 import 'package:allplant/features/widgets/plant_type_dropdown.dart';
+
 import 'package:allplant/features/widgets/text/add_plant_text_field.dart';
 import 'package:allplant/features/widgets/watering_slider.dart';
 import 'package:flutter/material.dart';
@@ -40,71 +41,75 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
       ),
       body: BlocProvider(
         create: (context) => AddPlantCubit(AddPlantRepository()),
-        child: BlocConsumer<AddPlantCubit, AddPlantState>(
+        child: BlocListener<AddPlantCubit, AddPlantState>(
           listener: (context, state) {
             if (state.isSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.successMessage)));
+                state.isSuccess = false;
               _formKey.currentState?.reset();
               context.read<AddPlantCubit>().resetState();
+       
             } else if (state.error != null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
             }
           },
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(Paddings.defaultPadding),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextField(
-                      label: AppStrings.plantNameLabel,
-                      validator: (value) => context.read<AddPlantCubit>().validatePlantName(value),
-                      onSaved: (value) => context.read<AddPlantCubit>().setPlantName(value!),
-                    ),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    CustomTextField(
-                      label: AppStrings.nicknameLabel,
-                      onSaved: (value) => context.read<AddPlantCubit>().setPlantNickname(value),
-                    ),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    PlantTypeDropdown(
-                      onSelected: (selectedType) {
-                        context.read<AddPlantCubit>().setPlantType(selectedType);
-                      },
-                    ),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    Text(
-                      "${AppStrings.wateringFrequencyLabel} ${state.wateringFrequency} gün",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const WateringSlider(),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    DatePickerWidget(
-                      selectedDate: state.lastWateredDate,
-                      onDateSelected: (date) {
-                        context.read<AddPlantCubit>().selectDate(date);
-                      },
-                    ),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    ImagePickerWidget(imagePath: state.imagePath, onPickImage: () => _onPickImage(context)),
-                    const SizedBox(height: AddPlantConstants.smallSpacing),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: Paddings.largePadding),
-                      child: Center(
-                        child: FloatingActionButton.extended(
-                          onPressed: () => context.read<AddPlantCubit>().validateAndSaveForm(_formKey),
-                          label: Text(AppStrings.savePlant),
+          child: BlocBuilder<AddPlantCubit, AddPlantState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(Paddings.defaultPadding),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        label: AppStrings.plantNameLabel,
+                        validator: (value) => context.read<AddPlantCubit>().validatePlantName(value),
+                        onSaved: (value) => context.read<AddPlantCubit>().setPlantName(value!),
+                      ),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      CustomTextField(
+                        label: AppStrings.nicknameLabel,
+                        onSaved: (value) => context.read<AddPlantCubit>().setPlantNickname(value),
+                      ),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      PlantTypeDropdown(
+                        onSelected: (selectedType) {
+                          context.read<AddPlantCubit>().setPlantType(selectedType);
+                        },
+                      ),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      Text(
+                        '${AppStrings.wateringFrequencyLabel} ${state.wateringFrequency} gün',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const WateringSlider(),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      DatePickerWidget(
+                        selectedDate: state.lastWateredDate,
+                        onDateSelected: (date) {
+                          context.read<AddPlantCubit>().selectDate(date);
+                        },
+                      ),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      ImagePickerWidget(imagePath: state.imagePath, onPickImage: () => _onPickImage(context)),
+                      const SizedBox(height: AddPlantConstants.smallSpacing),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: Paddings.largePadding),
+                        child: Center(
+                          child: FloatingActionButton.extended(
+                            onPressed: () => context.read<AddPlantCubit>().validateAndSaveForm(_formKey),
+                            label: const Text(AppStrings.savePlant),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -142,14 +147,14 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
 class AddPlantConstants {
   const AddPlantConstants._();
 
-  static const double smallSpacing = 10.0;
-  static const double mediumSpacing = 12.0;
+  static const double smallSpacing = 10;
+  static const double mediumSpacing = 12;
 
-  static const String cameraText = "Fotoğraf Çek";
-  static const String galleryText = "Galeriden Seç";
+  static const String cameraText = 'Fotoğraf Çek';
+  static const String galleryText = 'Galeriden Seç';
 
-  static const String deleteTitle = "Sil";
-  static const String deleteContent = "Bitkiyi silmek istediğinize emin misiniz?";
-  static const String cancelText = "İptal";
-  static const String confirmDeleteText = "Sil";
+  static const String deleteTitle = 'Sil';
+  static const String deleteContent = 'Bitkiyi silmek istediğinize emin misiniz?';
+  static const String cancelText = 'İptal';
+  static const String confirmDeleteText = 'Sil';
 }

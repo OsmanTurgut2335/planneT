@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 enum LeafPosition { topRight, bottomRight }
 
 class LeafImage extends StatelessWidget {
-  final LeafPosition position;
 
-  const LeafImage({super.key, required this.position});
+  const LeafImage({required this.position, super.key});
+  final LeafPosition position;
 
   @override
   Widget build(BuildContext context) {

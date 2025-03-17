@@ -1,5 +1,3 @@
-//nav routera falan değiştirmek ?
-
 import 'package:allplant/core/constants/app_colors.dart';
 import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/pages/add_plant.dart';
@@ -38,7 +36,7 @@ final GoRouter appRouter = GoRouter(
           name: 'plantDetail',
           builder: (context, state) {
             if (state.extra == null || state.extra is! Plant) {
-              return const Scaffold(extendBody: true, body: Center(child: Text("Error: No plant data found.")));
+              return const Scaffold(extendBody: true, body: Center(child: Text('Error: No plant data found.')));
             }
 
             final plant = state.extra as Plant;
@@ -58,9 +56,9 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.deepPine,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Theme(
@@ -81,13 +79,10 @@ class CustomBottomNavBar extends StatelessWidget {
             switch (index) {
               case 0:
                 context.go('/');
-                break;
               case 1:
                 context.go('/plants');
-                break;
               case 2:
                 context.go('/calendar');
-                break;
             }
           },
           items: const [

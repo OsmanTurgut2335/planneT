@@ -1,16 +1,15 @@
 import 'package:allplant/core/router/app_router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
 import 'package:allplant/features/pages/add_plant.dart';
 import 'package:allplant/features/pages/calendar_screen.dart';
 import 'package:allplant/features/pages/home_screen.dart';
 import 'package:allplant/features/pages/my_plants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Router Navigation Tests', () {
     testWidgets('Initial route shows HomeScreen', (WidgetTester tester) async {
-      // Pump your app with the router configuration.
+    
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: appRouter,
@@ -18,7 +17,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Verify that HomeScreen is displayed.
+     
       expect(find.byType(HomeScreen), findsOneWidget);
     });
 
@@ -34,7 +33,7 @@ void main() {
       appRouter.go('/plants');
       await tester.pumpAndSettle();
 
-      // Verify that the MyPlants widget is visible.
+
       expect(find.byType(MyPlantsScreen), findsOneWidget);
     });
 
@@ -66,8 +65,6 @@ void main() {
       expect(find.byType(AddPlantScreen), findsOneWidget);
     });
 
-    // For unknown routes, instead of checking internal configuration,
-    // you can verify that an error screen (or fallback) is shown.
     testWidgets('Navigating to an unknown route shows fallback', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
@@ -80,9 +77,6 @@ void main() {
       appRouter.go('/unknown');
       await tester.pumpAndSettle();
 
-      // In your router you might have a fallback page (or it might redirect to home).
-      // For this test, we assert that the unknown route is not staying on '/unknown'
-      // by verifying that HomeScreen or some known widget is displayed.
       expect(find.byType(HomeScreen), findsOneWidget);
     });
   });

@@ -1,12 +1,10 @@
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/constants/strings.dart';
-import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
-import 'package:allplant/core/widgets/button/add_plant_button.dart';
 import 'package:allplant/core/cubit/myplants/my_plant_cubit.dart';
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
-
+import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
+import 'package:allplant/core/widgets/button/add_plant_button.dart';
 import 'package:allplant/features/widgets/card/my_plants_card.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +32,7 @@ class MyPlantsScreen extends StatelessWidget {
           },
         ),
 
-        floatingActionButton: AddPlantButton(),
+        floatingActionButton: const AddPlantButton(),
       ),
     );
   }
