@@ -3,12 +3,9 @@ import 'package:allplant/core/repository/calendar/calendar_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-
-  CalendarCubit({required this.calendarRepository}) : super(PlantsCalenderLoading()){
-    loadWateringDates();
-  }
+  CalendarCubit({required this.calendarRepository}) : super(PlantsCalenderInitial());
   final CalendarRepository calendarRepository;
-
+  
   Future<void> loadWateringDates() async {
     emit(PlantsCalenderLoading());
     try {

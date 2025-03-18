@@ -1,6 +1,6 @@
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/constants/strings.dart';
-import 'package:allplant/core/cubit/myplants/my_plant_cubit.dart';
+import 'package:allplant/core/cubit/myplants/my_plants_cubit.dart';
 import 'package:allplant/core/cubit/myplants/my_plants_state.dart';
 import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 import 'package:allplant/core/widgets/button/add_plant_button.dart';

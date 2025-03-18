@@ -1,5 +1,7 @@
 abstract class CalendarState{}
 
+class PlantsCalenderInitial extends CalendarState{}
+
 class PlantsCalenderLoading extends CalendarState {} 
 
 class PlantsCalenderLoaded extends CalendarState {

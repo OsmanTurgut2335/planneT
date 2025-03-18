@@ -14,16 +14,5 @@ class AddPlantRepository {
   }
 
 
-  List<Plant> getAllPlants() {
-    return plantBox.values.toList();
-  }
-
-  Future<void> deletePlant(int index) async {
-    await plantBox.deleteAt(index);
-  }
-
-
-  Future<void> updatePlant(int index, Plant updatedPlant) async {
-    await plantBox.putAt(index, updatedPlant);
-  }
+ 
 }

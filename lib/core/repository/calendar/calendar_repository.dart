@@ -11,10 +11,10 @@ class CalendarRepository {
     final  now = DateTime.now();
     final  currentMonth = now.month;
     final  currentYear = now.year;
-    final Map<DateTime, List<String>> wateringSchedule = {};
+    final wateringSchedule = <DateTime, List<String>>{};
 
     for (final plant in _plantBox.values) {
-      DateTime nextWateringDate = DateTime(
+      var nextWateringDate = DateTime(
         plant.lastWateredDate.year,
         plant.lastWateredDate.month,
         plant.lastWateredDate.day,

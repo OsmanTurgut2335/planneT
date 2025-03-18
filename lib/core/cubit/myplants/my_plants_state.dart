@@ -2,6 +2,10 @@ import 'package:allplant/features/models/plant.dart';
 
 abstract class PlantListState {}
 
+
+
+class PlantListInitial extends PlantListState {}
+
 class PlantListLoading extends PlantListState {}
 
 class PlantListLoaded extends PlantListState {
@@ -16,7 +20,10 @@ class PlantListError extends PlantListState {
   final String message;
 }
 
+class WateringDatesLoading extends PlantListState{}
 
+class WateringDatesLoaded extends PlantListState{}
 
+class DeletePlantError extends PlantListState {}
 
 

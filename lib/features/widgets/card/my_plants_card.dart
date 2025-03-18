@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:allplant/core/constants/app_colors.dart';
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/constants/strings.dart';
-import 'package:allplant/core/cubit/myplants/my_plant_cubit.dart';
+import 'package:allplant/core/cubit/myplants/my_plants_cubit.dart';
 import 'package:allplant/features/models/plant.dart';
 import 'package:allplant/features/pages/my_plants.dart';
 import 'package:flutter/material.dart';

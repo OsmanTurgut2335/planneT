@@ -6,10 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class PlantListCubit extends Cubit<PlantListState> {
-
-  PlantListCubit({required this.repository}) : super(PlantListLoading()) {
-    loadPlants();
-  }
+  PlantListCubit({required this.repository}) : super(PlantListLoading());
   final MyPlantsRepository repository;
 
   void loadPlants() {
@@ -25,10 +22,14 @@ class PlantListCubit extends Cubit<PlantListState> {
     return repository.getWateringDates();
   }
 
-
-
-  void deletePlant(int index) {
-    repository.deletePlant(index);
+ Future<void> deletePlant(int index) async {
+  try {
+    await repository.deletePlant(index);
     loadPlants();
+    
+  } catch (e) {
+    emit(DeletePlantError());
   }
+}
+
 }
