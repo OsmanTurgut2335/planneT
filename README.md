@@ -26,18 +26,10 @@ A Flutter application designed to help users track and care for their plants. Th
   - Check specific dates for watering tasks.
   - Interactive calendar with day selection and event loading.
 
-- **Image Picker**  
-  - Choose images for your plants using camera or gallery.
-  - Responsive image preview that scales with device size.
-
 - **State Management & Navigation**  
   - Uses Bloc/Cubit for predictable state management.
   - GoRouter is used for seamless navigation between screens.
   - Hive is utilized as a local database for storing plant data.
-
-- **Theming**  
-  - Supports both light and dark themes.
-  - Custom app themes defined in the project.
 
 ---
 
