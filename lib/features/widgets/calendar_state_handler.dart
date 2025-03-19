@@ -34,12 +34,16 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
       return const Center(child: CircularProgressIndicator());
     } else if (widget.state is PlantsCalenderError) {
       return Center(
-        child: Text((widget.state as PlantsCalenderError).message, style: const TextStyle(color: Colors.red)),
+        child: Text(
+          (widget.state as PlantsCalenderError).message,
+          style: const TextStyle(color: Colors.red),
+        ),
       );
     } else if (widget.state is PlantsCalenderEmpty) {
       return const Center(child: Text(CalendarConstants.nothingToDo));
     } else if (widget.state is PlantsCalenderLoaded) {
-      final wateringSchedule = (widget.state as PlantsCalenderLoaded).wateringSchedule;
+      final wateringSchedule =
+          (widget.state as PlantsCalenderLoaded).wateringSchedule;
       return _buildCalendar(wateringSchedule);
     }
     return const SizedBox.shrink();
@@ -60,7 +64,10 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
     );
   }
 
-  TableCalendar<String> calendarView(DateTime focusedDay, Map<DateTime, List<String>> wateringSchedule) {
+  TableCalendar<String> calendarView(
+    DateTime focusedDay,
+    Map<DateTime, List<String>> wateringSchedule,
+  ) {
     return TableCalendar(
       focusedDay: focusedDay,
       firstDay: DateTime.now(),
@@ -71,7 +78,10 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
         setState(() {
           _selectedDay.value = selectedDay;
           _focusedDay.value = newFocusedDay;
-          _selectedEvents.value = _getEventsForDay(selectedDay, wateringSchedule);
+          _selectedEvents.value = _getEventsForDay(
+            selectedDay,
+            wateringSchedule,
+          );
         });
       },
       eventLoader: (day) => _getEventsForDay(day, wateringSchedule),
@@ -84,7 +94,10 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
     );
   }
 
-  List<String> _getEventsForDay(DateTime day, Map<DateTime, List<String>> wateringSchedule) {
+  List<String> _getEventsForDay(
+    DateTime day,
+    Map<DateTime, List<String>> wateringSchedule,
+  ) {
     final normalizedDay = DateTime(day.year, day.month, day.day);
 
     return wateringSchedule[normalizedDay] ?? [];
@@ -92,8 +105,10 @@ class _CalendarStateHandlerState extends State<CalendarStateHandler> {
 }
 
 class TodaysEvents extends StatelessWidget {
-  const TodaysEvents({required ValueNotifier<List<String>> selectedEvents, super.key})
-    : _selectedEvents = selectedEvents;
+  const TodaysEvents({
+    required ValueNotifier<List<String>> selectedEvents,
+    super.key,
+  }) : _selectedEvents = selectedEvents;
 
   final ValueNotifier<List<String>> _selectedEvents;
 
@@ -127,12 +142,20 @@ class WateringPlantsColumn extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.all(Paddings.defaultPadding),
-            child: Text(CalendarConstants.plantsToWater, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            child: Text(
+              CalendarConstants.plantsToWater,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ),
           ...events.map(
             (plantName) => Card(
-              margin: const EdgeInsets.symmetric(vertical: Paddings.defaultPadding / 2),
-              child: ListTile(leading: const Icon(Icons.local_florist, color: Colors.green), title: Text(plantName)),
+              margin: const EdgeInsets.symmetric(
+                vertical: Paddings.defaultPadding / 2,
+              ),
+              child: ListTile(
+                leading: const Icon(Icons.local_florist, color: Colors.green),
+                title: Text(plantName),
+              ),
             ),
           ),
         ],
@@ -149,9 +172,17 @@ class CalendarConstants {
 
   static const int markersMaxCount = 1;
 
-  static const BoxDecoration todayDecoration = BoxDecoration(color: Colors.blue, shape: BoxShape.circle);
+  static const BoxDecoration todayDecoration = BoxDecoration(
+    color: Colors.blue,
+    shape: BoxShape.circle,
+  );
 
-  static const BoxDecoration selectedDecoration = BoxDecoration(color: Colors.green, shape: BoxShape.circle);
+  static const BoxDecoration selectedDecoration = BoxDecoration(
+    color: Colors.green,
+    shape: BoxShape.circle,
+  );
 
-  static const BoxDecoration markerDecoration = BoxDecoration(color: AppColors.deepPine, shape: BoxShape.rectangle);
+  static const BoxDecoration markerDecoration = BoxDecoration(
+    color: AppColors.deepPine,
+  );
 }

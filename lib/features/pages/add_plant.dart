@@ -1,15 +1,11 @@
 import 'package:allplant/core/constants/paddings.dart';
 import 'package:allplant/core/constants/strings.dart';
-
-import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
-
 import 'package:allplant/core/cubit/addplant/add_plant_cubit.dart';
 import 'package:allplant/core/cubit/addplant/add_plant_state.dart';
-
+import 'package:allplant/core/repository/addplant/add_plant_repository.dart';
 import 'package:allplant/features/widgets/calendar/add_plant_calendar.dart';
 import 'package:allplant/features/widgets/image/add_plant_image_picker.dart';
 import 'package:allplant/features/widgets/plant_type_dropdown.dart';
-
 import 'package:allplant/features/widgets/text/add_plant_text_field.dart';
 import 'package:allplant/features/widgets/watering_slider.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +40,16 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
         child: BlocListener<AddPlantCubit, AddPlantState>(
           listener: (context, state) {
             if (state.isSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.successMessage)));
-                state.isSuccess = false;
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text(AppStrings.successMessage)),
+              );
+              state.isSuccess = false;
               _formKey.currentState?.reset();
               context.read<AddPlantCubit>().resetState();
-       
             } else if (state.error != null) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.error!)));
             }
           },
           child: BlocBuilder<AddPlantCubit, AddPlantState>(
@@ -64,18 +63,29 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                     children: [
                       CustomTextField(
                         label: AppStrings.plantNameLabel,
-                        validator: (value) => context.read<AddPlantCubit>().validatePlantName(value),
-                        onSaved: (value) => context.read<AddPlantCubit>().setPlantName(value!),
+                        validator:
+                            (value) => context
+                                .read<AddPlantCubit>()
+                                .validatePlantName(value),
+                        onSaved:
+                            (value) => context
+                                .read<AddPlantCubit>()
+                                .setPlantName(value!),
                       ),
                       const SizedBox(height: AddPlantConstants.smallSpacing),
                       CustomTextField(
                         label: AppStrings.nicknameLabel,
-                        onSaved: (value) => context.read<AddPlantCubit>().setPlantNickname(value),
+                        onSaved:
+                            (value) => context
+                                .read<AddPlantCubit>()
+                                .setPlantNickname(value),
                       ),
                       const SizedBox(height: AddPlantConstants.smallSpacing),
                       PlantTypeDropdown(
                         onSelected: (selectedType) {
-                          context.read<AddPlantCubit>().setPlantType(selectedType);
+                          context.read<AddPlantCubit>().setPlantType(
+                            selectedType,
+                          );
                         },
                       ),
                       const SizedBox(height: AddPlantConstants.smallSpacing),
@@ -92,14 +102,22 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
                         },
                       ),
                       const SizedBox(height: AddPlantConstants.smallSpacing),
-                      ImagePickerWidget(imagePath: state.imagePath, onPickImage: () => _onPickImage(context)),
+                      ImagePickerWidget(
+                        imagePath: state.imagePath,
+                        onPickImage: () => _onPickImage(context),
+                      ),
                       const SizedBox(height: AddPlantConstants.smallSpacing),
                       const Spacer(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: Paddings.largePadding),
+                        padding: const EdgeInsets.only(
+                          bottom: Paddings.largePadding,
+                        ),
                         child: Center(
                           child: FloatingActionButton.extended(
-                            onPressed: () => context.read<AddPlantCubit>().validateAndSaveForm(_formKey),
+                            onPressed:
+                                () => context
+                                    .read<AddPlantCubit>()
+                                    .validateAndSaveForm(_formKey),
                             label: const Text(AppStrings.savePlant),
                           ),
                         ),
@@ -154,7 +172,8 @@ class AddPlantConstants {
   static const String galleryText = 'Galeriden Seç';
 
   static const String deleteTitle = 'Sil';
-  static const String deleteContent = 'Bitkiyi silmek istediğinize emin misiniz?';
+  static const String deleteContent =
+      'Bitkiyi silmek istediğinize emin misiniz?';
   static const String cancelText = 'İptal';
   static const String confirmDeleteText = 'Sil';
 }

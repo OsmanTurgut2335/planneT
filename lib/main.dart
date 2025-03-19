@@ -1,15 +1,12 @@
-import 'package:allplant/core/cubit/plant/plant_cubit.dart';
-import 'package:allplant/core/repository/plant/plant_repository.dart';
 import 'package:allplant/core/router/app_router.dart';
 import 'package:allplant/core/theme/app_theme.dart';
 import 'package:allplant/features/models/plant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
 
   await Hive.initFlutter();
 
@@ -17,12 +14,7 @@ Future<void> main() async {
 
   await Hive.openBox<Plant>('plants');
 
-  runApp(
-    MultiBlocProvider(
-      providers: [BlocProvider<PlantCubit>(create: (context) => PlantCubit(PlantRepository()))],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -37,7 +29,8 @@ class MyAppState extends State<MyApp> {
 
   void toggleTheme() {
     setState(() {
-      _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     });
   }
 

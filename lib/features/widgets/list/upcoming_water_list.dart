@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UpcomingWateringsList extends StatelessWidget {
   const UpcomingWateringsList({super.key});
 
-//this widget displays upcoming waterings on main screen
+  //this widget displays upcoming waterings on main screen
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +32,25 @@ class UpcomingWateringsList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final event = events[index];
                   return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Paddings.borderRadius)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        Paddings.borderRadius,
+                      ),
+                    ),
                     child: ListTile(
-                      leading: const Icon(Icons.alarm, color: AppColors.iconColor, size: _Constants.iconSize),
+                      leading: const Icon(
+                        Icons.alarm,
+                        color: AppColors.iconColor,
+                        size: _Constants.iconSize,
+                      ),
                       title: Text(event.plant.name),
                       subtitle: Text(_buildSubtitle(event.wateringDate)),
                       trailing: IconButton(
                         icon: const Icon(Icons.check),
                         onPressed: () {
-                          context.read<TodaysWateringsCubit>().toggleWatered(event.plant);
+                          context.read<TodaysWateringsCubit>().toggleWatered(
+                            event.plant,
+                          );
                         },
                       ),
                     ),
@@ -69,7 +79,11 @@ class UpcomingWateringsList extends StatelessWidget {
   int _daysUntil(DateTime wateringDate) {
     final now = DateTime.now();
     final normalizedNow = DateTime(now.year, now.month, now.day);
-    final normalizedWateringDate = DateTime(wateringDate.year, wateringDate.month, wateringDate.day);
+    final normalizedWateringDate = DateTime(
+      wateringDate.year,
+      wateringDate.month,
+      wateringDate.day,
+    );
     return normalizedWateringDate.difference(normalizedNow).inDays;
   }
 }
@@ -81,7 +95,10 @@ class ErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(wateringState.message, style: const TextStyle(color: Colors.red));
+    return Text(
+      wateringState.message,
+      style: const TextStyle(color: Colors.red),
+    );
   }
 }
 

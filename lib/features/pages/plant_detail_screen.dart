@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PlantDetailScreen extends StatelessWidget {
+  const PlantDetailScreen({required this.plant, super.key});
   final Plant plant;
-
-  const PlantDetailScreen({super.key, required this.plant});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,10 @@ class PlantDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(plant.name.toUpperCase()),
           backgroundColor: Colors.transparent,
-          leading: IconButton(icon: const Icon(Icons.arrow_back_outlined), onPressed: () => context.go('/plants')),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_outlined),
+            onPressed: () => context.go('/plants'),
+          ),
         ),
         backgroundColor: AppColors.alternateScaffoldBackground,
         body: SafeArea(
@@ -33,7 +35,10 @@ class PlantDetailScreen extends StatelessWidget {
 
               return Stack(
                 children: [
-                  _PlantHeaderImage(imagePath: plant.imageUrl, height: screenHeight * 0.25),
+                  _PlantHeaderImage(
+                    imagePath: plant.imageUrl,
+                    height: screenHeight * 0.25,
+                  ),
                   CommonPositioned(
                     top: screenHeight * 0.2,
                     child: Column(
@@ -41,7 +46,9 @@ class PlantDetailScreen extends StatelessWidget {
                         Container(
                           width: screenWidth * 0.6,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Paddings.largePadding),
+                            borderRadius: BorderRadius.circular(
+                              Paddings.largePadding,
+                            ),
                             color: AppColors.scaffoldBackground,
                           ),
                           padding: const EdgeInsets.all(Paddings.largePadding),
@@ -63,21 +70,23 @@ class PlantDetailScreen extends StatelessWidget {
 }
 
 class _PlantHeaderImage extends StatelessWidget {
+  const _PlantHeaderImage({required this.imagePath, required this.height});
   final String imagePath;
   final double height;
 
-  const _PlantHeaderImage({required this.imagePath, required this.height});
-
   @override
   Widget build(BuildContext context) {
-    return CommonPositioned(top: 0, height: height, child: Image.file(File(imagePath), fit: BoxFit.fitWidth));
+    return CommonPositioned(
+      top: 0,
+      height: height,
+      child: Image.file(File(imagePath), fit: BoxFit.fitWidth),
+    );
   }
 }
 
 //Section to show upcoming waterings for the next 3 days
 
 class PlantNextWateringsWidget extends StatelessWidget {
-
   const PlantNextWateringsWidget({required this.plant, super.key});
   final Plant plant;
 
@@ -88,7 +97,10 @@ class PlantNextWateringsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(Paddings.largePadding),
       child: Column(
         children: [
-          const Text('Gelecek 3 Gün Planı', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Gelecek 3 Gün Planı',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: Paddings.largePadding / 2),
           PlantCareSchedule(plant: plant),
         ],
