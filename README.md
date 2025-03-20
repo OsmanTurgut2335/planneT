@@ -86,18 +86,18 @@ lib
 ## Installation & Setup
 
 1. **Clone the repository**:
-   ```bash
+     ```bash
      git clone https://github.com/yourusername/plant_care_app.git
 2. **Navigate to the project directory**:
      ```bash
-    cd plant_care_app
+     cd plant_care_app
 3. **Install dependencies**:
     ```bash
-   flutter pub get
+     flutter pub get
 4.  **:Run the app**: 
-  ```bash
-    flutter run
-  ```
+    ```bash
+     flutter run
+    ```
 
 ---
 
