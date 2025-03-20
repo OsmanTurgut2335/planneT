@@ -6,11 +6,13 @@ A Flutter application designed to help users track and care for their plants. Th
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Screenshots](#screenshots)
-3. [Tech Stack](#tech-stack)
-4. [Folder Structure](#folder-structure)
-5. [Contributing](#contributing)
+1. [Features](#features)  
+2. [Screenshots](#screenshots)  
+3. [Tech Stack](#tech-stack)  
+4. [Folder Structure](#folder-structure)  
+5. [Testing](#testing)  
+6. [Installation & Setup](#installation--setup)  
+7. [Contributing](#contributing)
 
 ---
 
@@ -52,6 +54,7 @@ A Flutter application designed to help users track and care for their plants. Th
 - **TableCalendar**: Calendar widget for displaying watering schedules.
 - **ImagePicker**: To capture images from camera or gallery.
 
+
 ---
 ## Folder Structure
 
@@ -69,8 +72,42 @@ lib
    ┣ models          // Data models (e.g., Plant)
    ┣ widgets         // Feature-specific widgets (e.g., plant cards, calendars, image pickers)
    ┗ pages           // Screens for each feature (e.g., AddPlantScreen, CalendarScreen, MyPlantsScreen)
+  
+
+```
+
+## Testing
+
+- **Unit Tests**: Basic unit tests are implemented for core logic and business rules.  
+- **Widget Tests**: Currently incomplete, planned for future development to ensure UI components behave correctly.
 
 ---
-```
+
+## Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+     git clone https://github.com/yourusername/plant_care_app.git
+2. **Navigate to the project directory**:
+     ```bash
+    cd plant_care_app
+3. **Install dependencies**:
+    ```bash
+   flutter pub get
+4.  **:Run the app**: 
+  ```bash
+    flutter run
+  ```
+
+---
+
 ## Contributing
-## Any contributions,suggestions are fully welcome!!
+
+Any contributions or suggestions are fully welcome!  
+1. Fork the repository.  
+2. Create a new branch: `git checkout -b release`.  
+3. Commit your changes: `git commit -m "Add some feature"`.  
+4. Push to your branch: `git push origin release`.  
+5. Open a pull request describing your changes.
+
+---
