@@ -20,6 +20,7 @@ class MyPlantsScreen extends StatelessWidget {
 
         body: BlocBuilder<PlantListCubit, PlantListState>(
           builder: (context, state) {
+            context.read<PlantListCubit>().loadPlants();
             if (state is PlantListLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PlantListEmpty) {

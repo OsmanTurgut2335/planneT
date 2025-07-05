@@ -4,7 +4,6 @@ abstract class PlantListState {}
 
 
 
-class PlantListInitial extends PlantListState {}
 
 class PlantListLoading extends PlantListState {}
 
@@ -25,5 +24,3 @@ class WateringDatesLoading extends PlantListState{}
 class WateringDatesLoaded extends PlantListState{}
 
 class DeletePlantError extends PlantListState {}
-
-

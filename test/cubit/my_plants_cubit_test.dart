@@ -28,7 +28,7 @@ void main() {
       'emits [PlantListEmpty] when repository.loadPlants returns an empty list',
       build: () {
         // Stublama: loadPlants() çağrıldığında boş bir liste döndür.
-        when(() => myPlantsRepository.loadPlants()).thenReturn(<Plant>[]);
+        when(() => myPlantsRepository.loadPlants()).thenReturn(<Plant>[] as Future<List<Plant>>);
         // Cubit constructor'da loadPlants() çağırmıyor artık.
         return plantListCubit;
       },

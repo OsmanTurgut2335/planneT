@@ -3,18 +3,21 @@ import 'package:allplant/core/repository/myplants/my_plants_repository.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-
 class PlantListCubit extends Cubit<PlantListState> {
   PlantListCubit({required this.repository}) : super(PlantListLoading());
   final MyPlantsRepository repository;
 
-  void loadPlants() {
-    final plants = repository.loadPlants();
-    if (plants.isEmpty) {
-      emit(PlantListEmpty());
-    } else {
-      emit(PlantListLoaded(plants));
+  Future<void> loadPlants() async {
+    emit(PlantListLoading());
+    try {
+      final plants = await repository.loadPlants(); // async olmalıysa await
+      if (plants.isEmpty) {
+        emit(PlantListEmpty());
+      } else {
+        emit(PlantListLoaded(plants));
+      }
+    } catch (e) {
+      emit(PlantListError("Failed to load plants"));
     }
   }
 
@@ -22,14 +25,12 @@ class PlantListCubit extends Cubit<PlantListState> {
     return repository.getWateringDates();
   }
 
- Future<void> deletePlant(int index) async {
-  try {
-    await repository.deletePlant(index);
-    loadPlants();
-    
-  } catch (e) {
-    emit(DeletePlantError());
+  Future<void> deletePlant(int index) async {
+    try {
+      await repository.deletePlant(index);
+      loadPlants();
+    } catch (e) {
+      emit(DeletePlantError());
+    }
   }
-}
-
 }

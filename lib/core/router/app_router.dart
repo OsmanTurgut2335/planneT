@@ -1,10 +1,10 @@
 import 'package:allplant/core/constants/app_colors.dart';
 import 'package:allplant/features/models/plant.dart';
-import 'package:allplant/features/pages/add_plant.dart';
-import 'package:allplant/features/pages/calendar_screen.dart';
-import 'package:allplant/features/pages/home_screen.dart';
-import 'package:allplant/features/pages/my_plants.dart';
-import 'package:allplant/features/pages/plant_detail_screen.dart';
+import 'package:allplant/screens/add_plant.dart';
+import 'package:allplant/screens/calendar_screen.dart';
+import 'package:allplant/screens/home_screen.dart';
+import 'package:allplant/screens/my_plants.dart';
+import 'package:allplant/screens/plant_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

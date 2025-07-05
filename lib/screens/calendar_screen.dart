@@ -18,12 +18,20 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  late CalendarCubit _calendarCubit;
+  @override
+  void initState() {
+    super.initState();
+    _calendarCubit = CalendarCubit(calendarRepository: CalendarRepository());
+    _calendarCubit.loadWateringDates();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CalendarCubit(calendarRepository: CalendarRepository()),
+    return BlocProvider.value(
+      value: _calendarCubit,
       child: Scaffold(
-        appBar: AppBar(title: const Text(CalendarStrings.wateringSchedule)),
+        appBar: AppBar(title: const Text('Sulama Takvimi')),
         body: BlocBuilder<CalendarCubit, CalendarState>(
           builder: (context, state) {
             return CalendarStateHandler(state: state);

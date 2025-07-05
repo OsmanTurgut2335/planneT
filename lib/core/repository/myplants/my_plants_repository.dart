@@ -4,8 +4,9 @@ import 'package:hive/hive.dart';
 class MyPlantsRepository {
   final Box<Plant> _plantBox = Hive.box<Plant>('plants');
 
-  List<Plant> loadPlants() {
-    return _plantBox.values.toList();
+  Future<List<Plant>> loadPlants() async {
+    final box = await Hive.openBox<Plant>('plants');
+    return box.values.toList();
   }
 
   List<DateTime> getWateringDates() {

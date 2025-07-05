@@ -1,8 +1,8 @@
 import 'package:allplant/core/router/app_router.dart';
-import 'package:allplant/features/pages/add_plant.dart';
-import 'package:allplant/features/pages/calendar_screen.dart';
-import 'package:allplant/features/pages/home_screen.dart';
-import 'package:allplant/features/pages/my_plants.dart';
+import 'package:allplant/screens/add_plant.dart';
+import 'package:allplant/screens/calendar_screen.dart';
+import 'package:allplant/screens/home_screen.dart';
+import 'package:allplant/screens/my_plants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
