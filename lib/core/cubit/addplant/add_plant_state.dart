@@ -1,5 +1,6 @@
-class AddPlantState {
+import 'package:equatable/equatable.dart';
 
+class AddPlantState extends Equatable {
   AddPlantState({
     this.plantName = '',
     this.plantNickname,
@@ -9,18 +10,17 @@ class AddPlantState {
     this.isLoading = false,
     this.isSuccess = false,
     this.error,
-    this.plantType = 'Diğer', 
+    this.plantType = 'Diğer',
   }) : lastWateredDate = lastWateredDate ?? DateTime.now();
+
   final String plantName;
   final String? plantNickname;
   final String? imagePath;
   final DateTime lastWateredDate;
   final int wateringFrequency;
   final bool isLoading;
-   bool isSuccess;
+  bool isSuccess;
   final String? error;
-
-
   final String plantType;
 
   AddPlantState copyWith({
@@ -42,8 +42,21 @@ class AddPlantState {
       wateringFrequency: wateringFrequency ?? this.wateringFrequency,
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
-      error: error,
+      error: error ?? this.error,
       plantType: plantType ?? this.plantType,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    plantName,
+    plantNickname,
+    imagePath,
+    lastWateredDate,
+    wateringFrequency,
+    isLoading,
+    isSuccess,
+    error,
+    plantType,
+  ];
 }
